@@ -13,13 +13,6 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Charger votre modèle ici
-model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_LGBM-[24-06-07 at 18_28].pkl"
-model = joblib.load(model_path)
-
-scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.pkl'
-scaler = joblib.load(scaler_path)
-
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
@@ -29,6 +22,13 @@ def welcome():
 def predict():
     data_json = request.get_json(force=True)
     app.logger.debug(f"Data received: {data_json}")
+
+    # Charger votre modèle ici
+    model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_LGBM-[24-06-07 at 18_28].pkl"
+    model = joblib.load(model_path)
+    
+    scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.pkl'
+    scaler = joblib.load(scaler_path)
 
     try:
         # Convertir les données JSON en DataFrame
