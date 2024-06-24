@@ -14,10 +14,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Charger votre modèle ici
-model_path = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/models/307511_rawdata_LGBM-[24-06-07 at 18_28].pkl"
+model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_LGBM-[24-06-07 at 18_28].pkl"
 model = joblib.load(model_path)
 
-scaler_path = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/models/scaler_rawdata.pkl'
+scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.pkl'
 scaler = joblib.load(scaler_path)
 
 @app.route('/')
@@ -66,4 +66,4 @@ def predict():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
