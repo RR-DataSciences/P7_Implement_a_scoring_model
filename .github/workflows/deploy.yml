@@ -32,8 +32,8 @@ jobs:
 
     - name: Execute commands on EC2
       run: |
-        echo "Exécutez vos commandes ici"
-        # Par exemple, pour copier des fichiers ou exécuter des scripts
-        mkdir test
-        git pull
-        
+        echo "Création du dossier test"
+        mkdir -p /home/ec2-user/
+        # echo "Exécution de git pull"
+        # git pull
+
