@@ -34,5 +34,6 @@ jobs:
       run: |
         echo "Exécutez vos commandes ici"
         # Par exemple, pour copier des fichiers ou exécuter des scripts
+        mkdir test
         git pull
         
