@@ -3,7 +3,7 @@ name: Déploiement sur EC2 AWS
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy_to_ec2:
