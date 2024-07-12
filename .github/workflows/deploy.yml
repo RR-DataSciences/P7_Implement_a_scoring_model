@@ -3,7 +3,7 @@ name: Déploiement sur EC2 AWS
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy_to_ec2:
@@ -19,21 +19,21 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1 # Remplacez par votre région AWS
     
-    - name: Add private key to ssh-agent
-      run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > /tmp/id_rsa
-        chmod 600 /tmp/id_rsa
-        eval "$(ssh-agent -s)"
-        ssh-add /tmp/id_rsa
+    # - name: Add private key to ssh-agent
+    #   run: |
+    #     echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > /tmp/id_rsa
+    #     chmod 600 /tmp/id_rsa
+    #     eval "$(ssh-agent -s)"
+    #     ssh-add /tmp/id_rsa
 
-    - name: Connect to EC2 instance
-      # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
-      run: ssh ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
+    # - name: Connect to EC2 instance
+    #   # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
+    #   run: ssh ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
 
-    - name: Execute commands on EC2
-      run: |
-        echo "Création du dossier test"
-        mkdir -p /home/ec2-user/
-        # echo "Exécution de git pull"
-        # git pull
+    # - name: Execute commands on EC2
+    #   run: |
+    #     echo "Création du dossier test"
+    #     mkdir -p /home/ec2-user/test
+    #     # echo "Exécution de git pull"
+    #     # git pull
 
