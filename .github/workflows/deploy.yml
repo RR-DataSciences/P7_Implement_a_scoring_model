@@ -26,14 +26,13 @@ jobs:
         eval "$(ssh-agent -s)"
         ssh-add /tmp/id_rsa
 
-    # - name: Connect to EC2 instance
-    #   # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
-    #   run: ssh ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
+    - name: Connect to EC2 instance
+      # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
+      run: ssh ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
 
-    # - name: Execute commands on EC2
-    #   run: |
-    #     echo "Création du dossier test"
-    #     mkdir -p /home/ec2-user/test
-    #     # echo "Exécution de git pull"
-    #     # git pull
-
+    - name: Execute commands on EC2
+      run: |
+        echo "Création du dossier GitHub_Action"
+        mkdir -p /home/ec2-user/test
+        # echo "Exécution de git pull"
+        # git pull
