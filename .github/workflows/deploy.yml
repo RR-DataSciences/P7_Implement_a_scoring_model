@@ -19,12 +19,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1 # Remplacez par votre région AWS
     
-    # - name: Add private key to ssh-agent
-    #   run: |
-    #     echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > /tmp/id_rsa
-    #     chmod 600 /tmp/id_rsa
-    #     eval "$(ssh-agent -s)"
-    #     ssh-add /tmp/id_rsa
+    - name: Add private key to ssh-agent
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > /tmp/id_rsa
+        chmod 600 /tmp/id_rsa
+        eval "$(ssh-agent -s)"
+        ssh-add /tmp/id_rsa
 
     # - name: Connect to EC2 instance
     #   # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
