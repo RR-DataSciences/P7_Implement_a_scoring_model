@@ -1,38 +1,31 @@
+# Workflow to access AWS resources when the workflow is linked to a branch
 name: Déploiement sur EC2 AWS
-
 on:
   push:
     branches:
       - master
-
+env:
+  AWS_REGION : eu-west-1
+# permission can be added at job level or workflow level
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
 jobs:
-  deploy_to_ec2:
+  S3PackageUpload:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1 # Remplacez par votre région AWS
-    
-    - name: Add private key to ssh-agent
-      run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > /tmp/id_rsa
-        chmod 600 /tmp/id_rsa
-        eval "$(ssh-agent -s)"
-        ssh-add /tmp/id_rsa
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::544981262207:role/remi_openid
+          role-session-name: samplerolesession
+          aws-region: ${{ env.AWS_REGION }}
 
-    - name: Connect to EC2 instance
-      # run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
-      run: ssh ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
-
-    - name: Execute commands on EC2
-      run: |
-        echo "Création du dossier GitHub_Action"
-        mkdir -p /home/ec2-user/test
-        # echo "Exécution de git pull"
-        # git pull
+      - name: Execute commands on EC2
+        run: |
+          echo "Création du dossier GitHub_Action"
+          mkdir -p /home/ec2-user/test
+          # echo "Exécution de git pull"
+          # git pull
