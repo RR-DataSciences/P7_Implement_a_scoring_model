@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V4 - Bienvenue sur votre API !"
+    return "V5 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
