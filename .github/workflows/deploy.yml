@@ -28,7 +28,7 @@ jobs:
           aws sts get-caller-identity
       - name: Save SSH private key
         run: |
-          echo "${{ secrets.AWS_PERSONAL_KEY }}" | tr -d '\r' > ~/.ssh/aws_personal_key.pem && chmod 600 ~/.ssh/aws_personal_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/aws_personal_key.pem && chmod 600 ~/.ssh/aws_personal_key.pem
       - name: Connect to EC2 instance
         run: | 
           ssh -i ~/.ssh/aws_personal_key.pem ec2-user@ec2-3-253-147-213.eu-west-1.compute.amazonaws.com
