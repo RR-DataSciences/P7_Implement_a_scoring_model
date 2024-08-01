@@ -39,6 +39,6 @@ jobs:
       - name: Execute commands on EC2
         run: |
           # echo "Création du dossier GitHub_Action"
-          mkdir -p /home/ec2-user/test
+          mkdir /home/ec2-user/test
           # echo "Exécution de git pull"
           # git pull
