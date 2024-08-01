@@ -11,7 +11,7 @@ permissions:
   id-token: write   # This is required for requesting the JWT
   contents: read    # This is required for actions/checkout
 jobs:
-  S3PackageUpload:
+  MajPullOnEC2:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -19,13 +19,20 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::544981262207:role/remi_openid
-          role-session-name: samplerolesession
+          role-to-assume: arn:aws:iam::010526279977:role/GitHubAction-AssumeRoleWithAction
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
+      # Hello from AWS: WhoAmI
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+
+      - name: Connect to EC2 instance
+        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@ec2-3-248-205-250.eu-west-1.compute.amazonaws.com
 
       - name: Execute commands on EC2
         run: |
-          echo "Création du dossier GitHub_Action"
+          # echo "Création du dossier GitHub_Action"
           mkdir -p /home/ec2-user/test
           # echo "Exécution de git pull"
           # git pull
