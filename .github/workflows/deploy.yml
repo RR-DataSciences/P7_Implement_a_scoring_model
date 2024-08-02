@@ -6,6 +6,7 @@ on:
       - master
 env:
   AWS_REGION : eu-west-1
+  AWS_EC2 : ec2-52-18-7-146.eu-west-1.compute.amazonaws.com
 # permission can be added at job level or workflow level
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -31,10 +32,10 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan ec2-3-253-147-213.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ env.AWS_EC2 }} >> ~/.ssh/known_hosts
       - name: Connect & Execute commands on EC2
         run: | 
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@ec2-52-18-7-146.eu-west-1.compute.amazonaws.com << EOF
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           mkdir /home/ec2-user/test
           # Ajoutez ici d'autres commandes à exécuter sur l'EC2
           EOF
