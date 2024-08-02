@@ -38,7 +38,8 @@ jobs:
         run: | 
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           # Ajoutez ici d'autres commandes à exécuter sur l'EC2
-          cd /P7_Implement_a_scoring_model
-          git pull ${{ env.GITHUB_REPO }}
+          ls /
+          # cd /P7_Implement_a_scoring_model
+          # git pull ${{ env.GITHUB_REPO }}
 
           EOF
