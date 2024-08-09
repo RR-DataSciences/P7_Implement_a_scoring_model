@@ -43,7 +43,7 @@ jobs:
           pwd
           cd /P7_Implement_a_scoring_model
           ls
-          git pull ${{ env.GITHUB_REPO }}
+          cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
           ls
           # pip3 install -r requirements.txt
 
