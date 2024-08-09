@@ -36,7 +36,7 @@ jobs:
           ssh-keyscan ${{ env.AWS_EC2 }} >> ~/.ssh/known_hosts
       - name: Connect & Execute commands on EC2
         run: | 
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} #<< EOF
+          #ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           # Ajoutez ici d'autres commandes à exécuter sur l'EC2
           cd ~
           ls
