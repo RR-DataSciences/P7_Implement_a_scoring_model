@@ -5,7 +5,7 @@ import numpy as np
 import dill
 from my_functions import custom_score
 import my_functions as MF
-from xgboost import XGBClassifier
+# from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V36 - Bienvenue sur votre API !"
+    return "V37 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
