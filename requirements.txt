@@ -19,5 +19,4 @@ scipy==1.13.1
 seaborn==0.13.1
 shap==0.46.0
 statsmodels==0.14.2
-xgboost==2.1.0
 yellowbrick==1.5

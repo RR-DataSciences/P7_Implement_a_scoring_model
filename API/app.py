@@ -3,8 +3,8 @@ import logging
 import pandas as pd
 import numpy as np
 import dill
-from my_functions import custom_score
 import my_functions as MF
+from my_functions import custom_score
 # from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 
@@ -33,7 +33,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V37 - Bienvenue sur votre API !"
+    return "V38 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
