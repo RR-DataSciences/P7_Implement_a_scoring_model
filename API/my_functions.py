@@ -73,7 +73,6 @@ def train_models(df, data_name, experiment_name):
     models = {
         "LogisticRegression": LogisticRegression(),
         "LGBM": LGBMClassifier(class_weight='balanced'),
-        "XGB": XGBClassifier(scale_pos_weight=ratio, class_weight=poids), # Initialiser le modèle XGBoost avec les poids de classe appropriés
         }
     # Define hyperparameters for each model
     param_grid = {
@@ -91,14 +90,7 @@ def train_models(df, data_name, experiment_name):
             'estimator__class_weight': ['balanced'],
             'estimator__force_row_wise': [True],
             'estimator__random_state': [42]
-            },
-        "XGB": {
-            'estimator__max_depth': [5, 7, 9],
-            'estimator__learning_rate': [0.01, 0.1, 0.2, 0.3, 0.5],
-            'estimator__n_estimators': [100],
-            'estimator__scale_pos_weight': [ratio]
-            },
-        }
+            },}
     # Boucle sur chaque modèle
     for model_name, model in models.items():
     
