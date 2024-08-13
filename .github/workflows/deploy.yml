@@ -45,7 +45,7 @@ jobs:
           # ls
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
           ls
-          python ./app.py
+          python ./API/app.py
 
           # Test unitaire
 
