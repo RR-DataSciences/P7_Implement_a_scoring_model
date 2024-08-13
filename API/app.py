@@ -15,17 +15,17 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Loading the scaler
-scaler_path = 'models/scaler_rawdata.dill'
+scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.dill'
 with open(scaler_path, 'rb') as file:
     scaler = dill.load(file)
 
 # Loading the scaler
-acp_path = 'models/pca_307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill'
+acp_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/pca_307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill'
 with open(acp_path, 'rb') as file:
     pca = dill.load(file)
 
 # Loading the model
-model_path = "models/307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill"
+model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill"
 # Ouvre le fichier en mode binaire et charge le modèle
 with open(model_path, 'rb') as file:
     model = dill.load(file)
@@ -33,7 +33,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V43 - Bienvenue sur votre API !"
+    return "V44 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
