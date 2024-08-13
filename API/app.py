@@ -2,17 +2,9 @@ from flask import Flask, request, jsonify
 import logging
 import pandas as pd
 import numpy as np
-import joblib
-import sys
-import os
 import dill
-
-# Assurez-vous que my_functions.py est dans le chemin
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
 from my_functions import custom_score
-# Test d'appel à custom_score pour vérifier l'importation
-print(custom_score)
+import my_functions as MF
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 
@@ -22,62 +14,68 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+# Loading the scaler
+scaler_path = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/models/scaler_rawdata.dill'
+with open(scaler_path, 'rb') as file:
+    scaler = dill.load(file)
+
+# Loading the scaler
+acp_path = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/models/pca_307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill'
+with open(acp_path, 'rb') as file:
+    pca = dill.load(file)
+
+# Loading the model
+model_path = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/models/307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill"
+# Ouvre le fichier en mode binaire et charge le modèle
+with open(model_path, 'rb') as file:
+    model = dill.load(file)
+
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V35 - Bienvenue sur votre API !"
+    return "Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data_json = request.get_json(force=True)
     app.logger.debug(f"Data received: {data_json}")
 
-    # Charger votre modèle ici
-    model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/model_rawdata.pkl"
-    model = joblib.load(model_path)
-    # model = dill.load(model_path)
-    app.logger.debug(f"Model loaded from {model_path}")
+    try:
+        # Convertir les données JSON en DataFrame
+        df = pd.DataFrame(data_json)
+        app.logger.debug(f"DataFrame: {df}")
 
-    scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.pkl'
-    scaler = joblib.load(scaler_path)
-    app.logger.debug(f"Scaler loaded from {scaler_path}")
+        # Prétraitement des données si nécessaire
+        data_scaled = scaler.transform(df)
+        app.logger.debug(f"Scaler: {data_scaled}")
 
-    # Convertir les données JSON en DataFrame
-    df = pd.DataFrame(data_json)
-    app.logger.debug(f"DataFrame: {df}")
+        # Convert the scaled data back to DataFrame to keep column names
+        features = list(df.columns)
+        data_scaled = pd.DataFrame.from_records(data_scaled, columns=features, index=df.index)
+        app.logger.debug(f"Scaler_df: {data_scaled}")
 
-    # Assurer que les colonnes du DataFrame sont dans le même ordre que celles attendues par le modèle
-    estimator = model.estimator_
-    expected_features = estimator.booster_.feature_name()
-    app.logger.debug(f"Expected features: {expected_features}")
-    app.logger.debug(f"DataFrame columns: {df.columns.tolist()}")
-    # df = df[expected_features]
-    # app.logger.debug(f"Reordered DataFrame: {df}")
-    app.logger.debug(f"Reordered DataFrame: {df}")
+        # Apply special character deletion to column names
+        data_scaled.columns = data_scaled.columns.map(MF.replace_special_chars)
+        app.logger.debug(f"Apply special character deletion: {data_scaled.columns}")
 
-    # Prétraitement des données si nécessaire
-    data_scaled = scaler.transform(df)
+        # Dimension reduction
+        app.logger.debug(f"Pre PCA: {pd.DataFrame(data_scaled).shape}")
+        data_scaled_pca = pca.transform(data_scaled)
+        app.logger.debug(f"Post PCA: {pd.DataFrame(data_scaled_pca).shape}")
 
-    # Convertir les données transformées en DataFrame pour faciliter le traitement ultérieur
-    df_transformed = pd.DataFrame(data_scaled, columns=df.columns, index=df.index)
-    app.logger.debug(f"Transformed DataFrame: {df_transformed}")
-        
-    df_transformed = np.array(df_transformed)
+        # Faire la prédiction
+        prediction = model.predict(data_scaled_pca)
+        score = model.predict_proba(data_scaled_pca)
+        app.logger.debug(f"Prediction: {prediction}, Score: {score}")
 
-    # Faire la prédiction
-    prediction = model.predict(df_transformed)
-    score = model.predict_proba(df_transformed)
-    app.logger.debug(f"Prediction: {prediction}, Score: {score}")
-
-    # Renvoyer la prédiction, le score et les IDs
-    return jsonify({
-        'ids': df.index.tolist(),
-        'prediction': prediction.tolist(),
-        'score': score.tolist()
-    })
-    #except Exception as e:
-    #    app.logger.error(f"Error: {str(e)}")
-    #    return jsonify({'error': str(e)}), 400
+        # Renvoyer la prédiction, le score et les IDs
+        return jsonify({
+            'ids': df.index.tolist(),
+            'prediction': prediction.tolist(),
+            'score': score.tolist()
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)

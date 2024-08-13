@@ -6,7 +6,7 @@ on:
       - master
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-54-194-175-118.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-3-253-156-68.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
 # permission can be added at job level or workflow level
 permissions:
@@ -39,12 +39,16 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           # Ajoutez ici d'autres commandes à exécuter sur l'EC2
           # cd ~
-          ls
-          pwd
-          cd /P7_Implement_a_scoring_model
-          ls
+          # ls
+          # pwd
+          # cd /P7_Implement_a_scoring_model
+          # ls
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
           ls
-          # pip3 install -r requirements.txt
+          python ./app.py
+
+          # Test unitaire
+
+          # Lancemengt API Gunicorn
 
           EOF
