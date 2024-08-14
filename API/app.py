@@ -35,7 +35,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V47 - Bienvenue sur votre API !"
+    return "V48 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
