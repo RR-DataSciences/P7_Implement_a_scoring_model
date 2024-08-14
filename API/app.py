@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from werkzeug.middleware.proxy_fix import ProxyFix
 import logging
 import pandas as pd
 import numpy as np
@@ -11,6 +12,15 @@ from my_functions import custom_score
 from lightgbm import LGBMClassifier
 
 app = Flask(__name__)
+
+# Configuration de ProxyFix
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,       # Nombre de proxys définissant l'en-tête X-Forwarded-For
+    x_proto=1,     # Nombre de proxys définissant l'en-tête X-Forwarded-Proto
+    x_host=1,      # Nombre de proxys définissant l'en-tête X-Forwarded-Host
+    x_prefix=1     # Nombre de proxys définissant l'en-tête X-Forwarded-Prefix
+)
 
 # Configuration du logger
 logging.basicConfig(level=logging.DEBUG)
@@ -35,7 +45,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V48 - Bienvenue sur votre API !"
+    return "V49 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
