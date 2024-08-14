@@ -3,6 +3,8 @@ import logging
 import pandas as pd
 import numpy as np
 import dill
+import sys
+print(sys.path)
 import my_functions as MF
 from my_functions import custom_score
 # from xgboost import XGBClassifier
@@ -33,7 +35,7 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V45 - Bienvenue sur votre API !"
+    return "V46 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
