@@ -49,7 +49,7 @@ jobs:
           pip install -r requirements.txt
 
           # Lance l'API
-          bash run_API.sh
+          bash ./P7_Implement_a_scoring_model/run_API.sh
 
           # Installer Gunicorn et Nginx
           # sudo yum install -y nginx
