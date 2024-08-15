@@ -46,10 +46,10 @@ jobs:
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
 
           # Installer les dépendances
-          pip install -r requirements.txt
+          # pip install -r requirements.txt
 
           # Lance l'API
-          bash ./P7_Implement_a_scoring_model/run_API.sh
+          bash ~/P7_Implement_a_scoring_model/run_API.sh
 
           # Installer Gunicorn et Nginx
           # sudo yum install -y nginx
