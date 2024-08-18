@@ -47,6 +47,7 @@ jobs:
       - name: Deploy API
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
+          pwd
           bash ~/P7_Implement_a_scoring_model/run_API.sh
           EOF
 

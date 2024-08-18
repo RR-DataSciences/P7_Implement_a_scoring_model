@@ -126,6 +126,7 @@ def predict():
         shap_values = explainer(df)
         # Convertir les valeurs SHAP en un format JSON sérialisable
         shap_values_json = shap_values.values.tolist()
+        app.logger.debug(f"shap_values: {shap_values}, shap_values_json: {shap_values_json}")
 
         # Renvoyer la prédiction, le score et les IDs
         return jsonify({
