@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
+        with:
+          path: P7_Implement_a_scoring_model
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -37,47 +39,17 @@ jobs:
       - name: Connect & Execute commands on EC2
         run: | 
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
-          # Ajoutez ici d'autres commandes à exécuter sur l'EC2
-          # cd ~
-          # ls
-          # pwd
-          # cd /P7_Implement_a_scoring_model
+          pwd
           ls
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
-
-          # Installer les dépendances
-          # pip install -r requirements.txt
-
-          # Lance l'API
-          bash ~/P7_Implement_a_scoring_model/run_API.sh
-
-          # Installer Gunicorn et Nginx
-          # sudo yum install -y nginx
-          # pip install gunicorn
-
-          # # Configurer Nginx
-          # sudo tee /etc/nginx/conf.d/p7_scoring_model.conf > /dev/null <<EOL
-          # server {
-          #     listen 80;
-          #     server_name _;
-
-          #     location / {
-          #         proxy_pass http://127.0.0.1:8000;
-          #         proxy_set_header Host \$host;
-          #         proxy_set_header X-Real-IP \$remote_addr;
-          #         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-          #         proxy_set_header X-Forwarded-Proto \$scheme;
-          #     }
-          # }
-          # EOL
-          
-          # sudo systemctl enable nginx
-          # sudo systemctl restart nginx
-
-          # # Exporter la variable d'environnement FLASK_APP et démarrer Gunicorn
-          # export FLASK_APP=./P7_Implement_a_scoring_model/API/app.py
-          # gunicorn -w 4 -b 127.0.0.1:8000 API.app:app --daemon
-
-          # Test unitaire
-
+          pwd
           EOF
+      - name: Deploy API
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
+          bash ~/P7_Implement_a_scoring_model/run_API.sh
+          EOF
+
+        # Test unitaire
+
+          

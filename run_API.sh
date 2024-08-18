@@ -6,6 +6,7 @@
 # Lancer l'application Flask
 # flask run --host=0.0.0.0
 
-cd ./P7_Implement_a_scoring_model/API/
+# Lancer l'application Flask avec gunicorn
+cd ~/P7_Implement_a_scoring_model/API/ || exit 1
 
 gunicorn --bind 0.0.0.0:5000 app:app
