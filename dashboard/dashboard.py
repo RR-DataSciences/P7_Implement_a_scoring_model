@@ -17,7 +17,7 @@ selected_data = data.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://3.254.163.219:5000/predict"
+url = "http://3.252.151.234:5000/predict"
 
 # Envoyer une requête POST à l'API avec les données JSON
 if st.button("Faire une prédiction"):
@@ -38,11 +38,11 @@ if st.button("Faire une prédiction"):
                 'bar': {'color': "orange"},
                 'steps': [
                     {'range': [0, 0.5], 'color': "lightgreen"},
-                    {'range': [0.5, 1], 'color': "red"}],
+                    {'range': [0.5, 1], 'color': "lightred"}],
                 'threshold': {
                     'line': {'color': "black", 'width': 4},
-                    'thickness': 0.75,
-                    'value': 0.5}}  # Seuil de 0.5 pour classification
+                    'thickness': 0.9,
+                    'value': 0.9}}  # Seuil de 0.5 pour classification
         ))
 
         # Afficher la jauge
