@@ -45,7 +45,47 @@ with open(model_path, 'rb') as file:
 @app.route('/')
 def welcome():
     logger.info("Bienvenue sur votre API !")
-    return "V54 - Bienvenue sur votre API !"
+    
+    # HTML et CSS pour l'image de fond centrée
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bienvenue sur votre API</title>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                # background-image: url('/static/background.jpg');
+                # background-size: cover;
+                # background-position: center;
+                # background-repeat: no-repeat;
+            }
+            .content {
+                text-align: center;
+                color: white;
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour le texte */
+                padding: 20px;
+                border-radius: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <h1>V55 - Bienvenue sur votre API !</h1>
+        </div>
+    </body>
+    </html>
+    """
+    return html_content
+    # return "V55 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
