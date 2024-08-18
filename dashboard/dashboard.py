@@ -20,7 +20,7 @@ data_json = selected_data.to_dict(orient='records')
 # URL de l'API
 url = "http://3.252.151.234:5000/predict"
 
-print("Version 1")
+st.write(f"**Version 1**")
 
 if st.button("Faire une prédiction"):
     response = requests.post(url, json=data_json)
