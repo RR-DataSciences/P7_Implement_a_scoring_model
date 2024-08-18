@@ -80,7 +80,7 @@ def welcome():
     </head>
     <body>
         <div class="content">
-            <h1>V59 - Bienvenue sur votre API !</h1>
+            <h1>V60 - Bienvenue sur votre API !</h1>
         </div>
     </body>
     </html>
@@ -122,18 +122,18 @@ def predict():
         app.logger.debug(f"Prediction: {prediction}, Score: {score}")
 
         # Calculer les valeurs SHAP
-        explainer = shap.Explainer(model)
-        shap_values = explainer(df)
+        # explainer = shap.Explainer(model)
+        # shap_values = explainer(df)
         # Convertir les valeurs SHAP en un format JSON sérialisable
-        shap_values_json = shap_values.values.tolist()
-        app.logger.debug(f"shap_values: {shap_values}, shap_values_json: {shap_values_json}")
+        # shap_values_json = shap_values.values.tolist()
+        # app.logger.debug(f"shap_values: {shap_values}, shap_values_json: {shap_values_json}")
 
         # Renvoyer la prédiction, le score et les IDs
         return jsonify({
             'ids': df.index.tolist(),
             'prediction': prediction.tolist(),
             'score': score.tolist(),
-            'shap_values': shap_values_json
+            # 'shap_values': shap_values_json
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400

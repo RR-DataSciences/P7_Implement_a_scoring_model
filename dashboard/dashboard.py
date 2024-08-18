@@ -53,13 +53,13 @@ if st.button("Faire une prédiction"):
             st.plotly_chart(gauge)
 
             # Afficher les valeurs SHAP
-            shap_values = prediction['shap_values']
-            shap_df = pd.DataFrame(shap_values, columns=data.columns)
+            # shap_values = prediction['shap_values']
+            # shap_df = pd.DataFrame(shap_values, columns=data.columns)
             
-            st.write(f"**Valeurs SHAP pour le client sélectionné ({selected_id}):**")
-            for column in shap_df.columns:
-                fig = px.bar(shap_df, x=shap_df.index, y=column, title=f"Impact des caractéristiques sur {column}")
-                st.plotly_chart(fig)
+            # st.write(f"**Valeurs SHAP pour le client sélectionné ({selected_id}):**")
+            # for column in shap_df.columns:
+            #     fig = px.bar(shap_df, x=shap_df.index, y=column, title=f"Impact des caractéristiques sur {column}")
+            #     st.plotly_chart(fig)
         else:
             st.error("Les valeurs SHAP ne sont pas présentes dans la réponse.")
     else:
