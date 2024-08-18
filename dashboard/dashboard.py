@@ -32,21 +32,37 @@ if st.button("Faire une prédiction"):
         gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=score[1],  # Affiche la probabilité du score positif (1)
-            title={'text': "Probabilité de défaut (1)"},
+            title={'text': "Probabilité de défaut de remboursement (1)"},
             gauge={
-                'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
+                'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "white"},
                 'bar': {'color': "orange"},
                 'steps': [
-                    {'range': [0, 0.5], 'color': "lightgreen"},
-                    {'range': [0.5, 1], 'color': "lightred"}],
+                    {'range': [0, 0.9], 'color': "indianred"},
+                    {'range': [0.9, 1], 'color': "lightgreen"}],
                 'threshold': {
-                    'line': {'color': "black", 'width': 4},
+                    'line': {'color': "black", 'width': 5},
                     'thickness': 0.9,
                     'value': 0.9}}  # Seuil de 0.5 pour classification
         ))
 
+        # Afficher le score sous forme de texte
+        st.write(f"**Score de probabilité pour le client sélectionné ({selected_id}):**")
+        st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")
+
         # Afficher la jauge
         st.plotly_chart(gauge)
+
+        # Récupérer et afficher les valeurs SHAP
+        shap_values = prediction['shap_values']
+        
+        # Convertir les valeurs SHAP en DataFrame pour affichage
+        shap_df = pd.DataFrame(shap_values, columns=data.columns)
+        
+        # Afficher un graphique des valeurs SHAP
+        st.write(f"**Valeurs SHAP pour le client sélectionné ({selected_id}):**")
+        for column in shap_df.columns:
+            fig = px.bar(shap_df, x=shap_df.index, y=column, title=f"Impact des caractéristiques sur {column}")
+            st.plotly_chart(fig)
 
     else:
         st.error(f"Erreur lors de la requête API: {response.status_code}")

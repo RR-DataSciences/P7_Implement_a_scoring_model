@@ -4,6 +4,7 @@ import logging
 import pandas as pd
 import numpy as np
 import dill
+import shap
 import sys
 print(sys.path)
 import my_functions as MF
@@ -120,11 +121,18 @@ def predict():
         score = model.predict_proba(data_scaled_pca)
         app.logger.debug(f"Prediction: {prediction}, Score: {score}")
 
+        # Calculer les valeurs SHAP
+        explainer = shap.Explainer(model)
+        shap_values = explainer(df)
+        # Convertir les valeurs SHAP en un format JSON sérialisable
+        shap_values_json = shap_values.values.tolist()
+
         # Renvoyer la prédiction, le score et les IDs
         return jsonify({
             'ids': df.index.tolist(),
             'prediction': prediction.tolist(),
-            'score': score.tolist()
+            'score': score.tolist(),
+            'shap_values': shap_values_json
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400
