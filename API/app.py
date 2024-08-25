@@ -123,9 +123,9 @@ def predict():
         data_scaled_rfe = rfe.transform(data_scaled)
         app.logger.debug(f"Post RFE: {pd.DataFrame(data_scaled_rfe).shape}")
 
-        rfe_columns = data_scaled.drop(columns='TARGET').columns[rfe.support_]
+        rfe_columns = data_scaled.columns[rfe.support_]
         app.logger.debug(f"Select columns Post RFE: {data_scaled[rfe_columns]}")
-
+ 
         # Faire la prédiction
         prediction = model.predict(data_scaled_rfe)
         score = model.predict_proba(data_scaled_rfe)
