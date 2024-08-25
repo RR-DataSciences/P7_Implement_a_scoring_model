@@ -8,6 +8,7 @@ import shap
 import sys
 print(sys.path)
 import my_functions as MF
+import Copie_my_functions as cMF
 from my_functions import custom_score
 # from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
@@ -114,7 +115,7 @@ def predict():
         app.logger.debug(f"Scaler_df: {data_scaled}")
 
         # Apply special character deletion to column names
-        data_scaled.columns = data_scaled.columns.map(MF.replace_special_chars)
+        data_scaled.columns = data_scaled.columns.map(cMF.replace_special_chars)
         app.logger.debug(f"Apply special character deletion: {data_scaled.columns}")
 
         # Dimension reduction
