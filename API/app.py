@@ -32,16 +32,22 @@ scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata
 with open(scaler_path, 'rb') as file:
     scaler = dill.load(file)
 
-# Loading the scaler
-acp_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/pca_307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill'
-with open(acp_path, 'rb') as file:
-    pca = dill.load(file)
+# Loading the rfe
+rfe_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/rfe_307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+with open(rfe_path, 'rb') as file:
+    rfe = dill.load(file)
 
 # Loading the model
-model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_pca_dill_LGBM-[24-08-02 at 08_13].dill"
+model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill"
 # Ouvre le fichier en mode binaire et charge le modèle
 with open(model_path, 'rb') as file:
     model = dill.load(file)
+
+# Loading the explainer
+explainer_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/explainer.dill"
+# Ouvre le fichier en mode binaire et charge le modèle
+with open(explainer_path, 'rb') as file:
+    explainer = dill.load(file)
 
 @app.route('/')
 def welcome():
@@ -112,28 +118,30 @@ def predict():
         app.logger.debug(f"Apply special character deletion: {data_scaled.columns}")
 
         # Dimension reduction
-        app.logger.debug(f"Pre PCA: {pd.DataFrame(data_scaled).shape}")
-        data_scaled_pca = pca.transform(data_scaled)
-        app.logger.debug(f"Post PCA: {pd.DataFrame(data_scaled_pca).shape}")
+        app.logger.debug(f"Pre RFE: {pd.DataFrame(data_scaled).shape}")
+        data_scaled_rfe = rfe.transform(data_scaled)
+        app.logger.debug(f"Post RFE: {pd.DataFrame(data_scaled_rfe).shape}")
+
+        rfe_columns = data_scaled.drop(columns='TARGET').columns[rfe.support_]
+        app.logger.debug(f"Select columns Post RFE: {data_scaled[rfe_columns]}")
 
         # Faire la prédiction
-        prediction = model.predict(data_scaled_pca)
-        score = model.predict_proba(data_scaled_pca)
+        prediction = model.predict(data_scaled_rfe)
+        score = model.predict_proba(data_scaled_rfe)
         app.logger.debug(f"Prediction: {prediction}, Score: {score}")
 
         # Calculer les valeurs SHAP
-        # explainer = shap.Explainer(model)
-        # shap_values = explainer(df)
+        shap_values = explainer(data_scaled_rfe)
         # Convertir les valeurs SHAP en un format JSON sérialisable
-        # shap_values_json = shap_values.values.tolist()
-        # app.logger.debug(f"shap_values: {shap_values}, shap_values_json: {shap_values_json}")
+        shap_values_list = shap_values.values.tolist()
+        app.logger.debug(f"Affiche les données shap: {shap_values_list}")
 
         # Renvoyer la prédiction, le score et les IDs
         return jsonify({
             'ids': df.index.tolist(),
             'prediction': prediction.tolist(),
             'score': score.tolist(),
-            # 'shap_values': shap_values_json
+            'shap_values': shap_values_list
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400

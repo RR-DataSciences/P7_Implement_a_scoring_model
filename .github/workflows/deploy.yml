@@ -6,7 +6,7 @@ on:
       - master
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-3-252-151-234.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-52-17-219-183.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
 # permission can be added at job level or workflow level
 permissions:
