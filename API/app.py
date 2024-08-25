@@ -87,13 +87,12 @@ def welcome():
     </head>
     <body>
         <div class="content">
-            <h1>V61 - Bienvenue sur votre API !</h1>
+            <h1>V62 - Bienvenue sur votre API !</h1>
         </div>
     </body>
     </html>
     """
     return html_content
-    # return "V55 - Bienvenue sur votre API !"
 
 @app.route('/predict', methods=['POST'])
 def predict():
