@@ -134,14 +134,19 @@ def predict():
         shap_values = explainer(data_scaled_rfe)
         # Convertir les valeurs SHAP en un format JSON sérialisable
         shap_values_list = shap_values.values.tolist()
-        app.logger.debug(f"Affiche les données shap: {shap_values_list}")
+        base_values_list = shap_values.base_values.tolist()
+        app.logger.debug(f"Affiche les shap_values_list: {shap_values_list}")
+        app.logger.debug(f"Affiche les base_values_list: {base_values_list}")
+
+        shap_dict = [{'shap_values': sv, 'base_value': bv, 'features': f} 
+            for sv, bv, f in zip(shap_values_list, base_values_list, data_scaled_rfe.tolist())]
 
         # Renvoyer la prédiction, le score et les IDs
         return jsonify({
             'ids': df.index.tolist(),
             'prediction': prediction.tolist(),
             'score': score.tolist(),
-            'shap_values': shap_values_list,
+            'shap_details': shap_dict,
             'rfe_columns': rfe_columns.to_list()
         })
     except Exception as e:

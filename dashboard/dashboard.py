@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import numpy as np
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.express as px
@@ -29,7 +30,8 @@ if st.button("Faire une prédiction"):
     if response.status_code == 200:
         prediction = response.json()
         # st.write("Réponse de l'API:", prediction)  # Ajoutez ceci pour débogage
-        if 'shap_values' in prediction:
+        if 'shap_details' in prediction:
+            shap_details = prediction['shap_details']
             score = prediction['score'][0]
             
             # Configurer la jauge avec Plotly
@@ -55,9 +57,11 @@ if st.button("Faire une prédiction"):
 
             
             st.write(f"Description du dataset: {data.shape}")
+            st.write(f"Description du dataset: {prediction['rfe_columns']}")
+            st.write(f"Description du dataset: {prediction['shap_details']}")
 
             shap.plots.force(prediction['shap_values'],
-                             feature_names=rfe_columns,
+                             feature_names=prediction['rfe_columns'],
                              out_names='TARGET',
                              matplotlib=True,
                              text_rotation=25, show=True)
