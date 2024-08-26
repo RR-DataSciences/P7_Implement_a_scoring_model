@@ -76,18 +76,18 @@ def welcome():
             }
             .content {
                 text-align: center;
-                color: white;
+                color: black;
                 font-family: Arial, sans-serif;
-                font-size: 24px;
+                font-size: 20px;
                 background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour le texte */
-                padding: 20px;
+                padding: 10px;
                 border-radius: 10px;
             }
         </style>
     </head>
     <body>
         <div class="content">
-            <h1>V62 - Bienvenue sur votre API !</h1>
+            <h1>V63 - Bienvenue sur votre API !</h1>
         </div>
     </body>
     </html>
