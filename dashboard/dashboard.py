@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.express as px
+import shap
 
 # Lire le fichier CSV
 path = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/data/API_test"
@@ -18,7 +19,7 @@ selected_data = data.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://3.252.151.234:5000/predict"
+url = "http://52.214.54.157:5000/predict"
 
 st.write(f"**Version 1**")
 
@@ -27,7 +28,7 @@ if st.button("Faire une prédiction"):
     
     if response.status_code == 200:
         prediction = response.json()
-        st.write("Réponse de l'API:", prediction)  # Ajoutez ceci pour débogage
+        # st.write("Réponse de l'API:", prediction)  # Ajoutez ceci pour débogage
         if 'shap_values' in prediction:
             score = prediction['score'][0]
             
@@ -51,6 +52,17 @@ if st.button("Faire une prédiction"):
             st.write(f"**Score de probabilité pour le client sélectionné ({selected_id}):**")
             st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")
             st.plotly_chart(gauge)
+
+            
+            st.write(f"Description du dataset: {data.shape}")
+
+            shap.plots.force(prediction['shap_values'],
+                             feature_names=rfe_columns,
+                             out_names='TARGET',
+                             matplotlib=True,
+                             text_rotation=25, show=True)
+
+            st.write("Valeur Shape", prediction['shap_values'])
 
             # Afficher les valeurs SHAP
             # shap_values = prediction['shap_values']

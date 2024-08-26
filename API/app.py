@@ -76,10 +76,10 @@ def welcome():
             }
             .content {
                 text-align: center;
-                color: black;
+                color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour le texte */
+                background-color: #E8A463; /* Fond semi-transparent pour le texte */
                 padding: 10px;
                 border-radius: 10px;
             }
@@ -87,7 +87,7 @@ def welcome():
     </head>
     <body>
         <div class="content">
-            <h1>V63 - Bienvenue sur votre API !</h1>
+            <h1>V64 - Bienvenue sur votre API !</h1>
         </div>
     </body>
     </html>
@@ -141,7 +141,8 @@ def predict():
             'ids': df.index.tolist(),
             'prediction': prediction.tolist(),
             'score': score.tolist(),
-            'shap_values': shap_values_list
+            'shap_values': shap_values_list,
+            'rfe_columns': rfe_columns.to_list()
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400
