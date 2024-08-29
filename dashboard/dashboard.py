@@ -60,11 +60,25 @@ if st.button("Faire une prédiction"):
             st.write(f"Description du dataset: {prediction['rfe_columns']}")
             st.write(f"Description du dataset: {prediction['shap_details']}")
 
-            shap.plots.force(prediction['shap_values'],
-                             feature_names=prediction['rfe_columns'],
-                             out_names='TARGET',
-                             matplotlib=True,
-                             text_rotation=25, show=True)
+            # Since shap_details is a list, you need to access its first element (or the one you need)
+            shap_detail = shap_details[0]  # Assuming you want the first dictionary in the list
+
+            # Extracting shap_values, base_value, and features from the dictionary
+            shap_values = np.array(shap_detail['shap_values'])
+            base_value = shap_detail['base_value']
+            features = np.array(shap_detail['features'])
+            feature_names = prediction['rfe_columns']
+
+            # Creating a SHAP Explanation object
+            shap_exp = shap.Explanation(values=shap_values, 
+                                        base_values=base_value, 
+                                        data=features, 
+                                        feature_names=feature_names)
+
+            # Displaying the SHAP Force Plot
+            st.write(f"**SHAP Force Plot for the selected client ({selected_id}):**")
+            shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, matplotlib=True)
+            st.pyplot()
 
             st.write("Valeur Shape", prediction['shap_values'])
 
