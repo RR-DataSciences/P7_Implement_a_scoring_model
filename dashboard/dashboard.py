@@ -4,8 +4,10 @@ import numpy as np
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.express as px
+import plotly.figure_factory as ff
 import shap
 import matplotlib.pyplot as plt
+from plotly.subplots import make_subplots
 
 # Lire le fichier CSV - train
 path_train = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/data/API_test"
@@ -113,7 +115,47 @@ if st.button("Faire une prédiction"):
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
-            st.write(f"Affiche les données d'entrainements: {df_train}")
+            ################## Affiche les données comparatives #########
+
+            # Ajout du client sélection au données comparatives
+            selected_customer = df_test.loc[df_test.index == selected_id]
+            st.write(f"Affiche les données d'entrainements: {selected_customer}")
+            if score[1] < 90:
+                st.write(f"Affiche le score de prédiction: {score[1]}")
+                target = 0
+                st.write(f"Target: {target}")
+                selected_customer['TARGET'] = target
+            elif score[1] >= 90:
+                st.write(f"Affiche le score de prédiction: {score[1]}")
+                target = 1
+                st.write(f"Target: {target}")
+                selected_customer['TARGET'] = target
+
+            st.write(f"Target: {selected_customer[top_features_list+['TARGET']]}")
+
+
+            df_best_features = df_train[top_features_list+['TARGET']]
+            st.write(f"Affiche les données d'entrainements: {df_best_features}")
+            
+            # Création d'une grille de sous-graphiques
+            fig = make_subplots(rows=1, cols=len(top_features_list), subplot_titles=top_features_list)
+
+            # Créer des histogrammes pour chaque caractéristique sélectionnée
+            for i, feature in enumerate(top_features_list):
+                x1 = df_best_features.loc[df_best_features['TARGET'] == 0, feature]
+                x2 = df_best_features.loc[df_best_features['TARGET'] == 1, feature]
+                
+                fig.add_trace(go.Histogram(x=x1, name='Clients ayant remboursé', marker_color='slategray'), row=1, col=i+1)
+                fig.add_trace(go.Histogram(x=x2, name='Clients avec défaut', marker_color='magenta'), row=1, col=i+1)
+
+            # Mettre à jour le layout pour une meilleure lisibilité
+            fig.update_layout(barmode='overlay')
+            fig.update_traces(opacity=0.75)
+
+            # Ajuster la taille et afficher la figure
+            fig.update_layout(width=1200, height=400)
+            st.plotly_chart(fig, use_container_width=True)
+
 
         else:
             st.error("Les valeurs SHAP ne sont pas présentes dans la réponse.")
