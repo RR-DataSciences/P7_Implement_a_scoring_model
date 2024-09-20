@@ -6,7 +6,7 @@ on:
       - master
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-18-201-248-89.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-34-245-235-117.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
 # permission can be added at job level or workflow level
 permissions:
@@ -51,6 +51,10 @@ jobs:
           bash ~/P7_Implement_a_scoring_model/run_API.sh
           EOF
 
-        # Test unitaire
+      # Test unitaire
+      - name: Test API
+      run: |
+      curl -X POST "http://${{ env.AWS_EC2 }}/predict" -H "Content-Type: application/json" -d '{}'
+
 
           
