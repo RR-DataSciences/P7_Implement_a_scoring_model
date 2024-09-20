@@ -50,11 +50,10 @@ jobs:
           pwd
           bash ~/P7_Implement_a_scoring_model/run_API.sh
           EOF
-
       # Test unitaire
       - name: Test API
-      run: |
-      curl -X POST "http://${{ env.AWS_EC2 }}/predict" -H "Content-Type: application/json" -d '{}'
+        run: |
+          curl -X POST "http://${{ env.AWS_EC2 }}/predict" -H "Content-Type: application/json" -d '{}'
 
 
           
