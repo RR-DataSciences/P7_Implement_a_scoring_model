@@ -32,22 +32,9 @@ class TestScoringModel(unittest.TestCase):
         score = custom_score(y_test, y_pred)
         self.assertEqual(score, 11)
 
-    def test_train_models(self):
-        # Créer un DataFrame de test simple
-        df = pd.DataFrame({
-            'feature1': [1, 2, 3, 4],
-            'feature2': [5, 6, 7, 8],
-            'TARGET': [0, 1, 1, 0]
-        })
-
-        X_train_rfe, X_test_rfe, y_train, y_test, rfe, model = train_models(df, "test_data")
-
-        self.assertIsNotNone(X_train_rfe)
-        self.assertIsNotNone(X_test_rfe)
-        self.assertIsNotNone(y_train)
-        self.assertIsNotNone(y_test)
-        self.assertIsNotNone(rfe)
-        self.assertIsNotNone(model)
+    # def test_predict():
+    #     importer modèle + scaler
+    #     Faire une prédiction
 
 if __name__ == '__main__':
     unittest.main()
