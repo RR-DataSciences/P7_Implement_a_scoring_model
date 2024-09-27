@@ -1,4 +1,7 @@
 import unittest
+import sys
+# setting path
+sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model/API')
 from Copie_my_functions import train_models, missing_values_table, replace_special_chars, custom_score
 import pandas as pd
 import numpy as np
