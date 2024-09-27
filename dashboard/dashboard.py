@@ -32,7 +32,7 @@ logo_path = f"{projet_7}/P7_Implement_a_scoring_model/API/logo.jpg"
 st.sidebar.image(logo_path, use_column_width=True)
 
 # Placer le sélecteur dans la barre latérale
-st.sidebar.title("Sélection Client")
+st.sidebar.title("Dashboard de simulation pour l'attribution d'un prêt bancaire")
 selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
 
 # Extraire les données pour l'individu sélectionné
@@ -44,7 +44,7 @@ data_json = selected_data.to_dict(orient='records')
 # URL de l'API
 url = "http://52.208.94.112:5000/predict"
 
-st.write(f"**Version 1**")
+st.write(f"**Outil de prédiction et de visualisation pour les demandes de crédits à la consommation**")
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
@@ -60,7 +60,7 @@ if st.sidebar.button("Lancer la simulation"):
             gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=score[1],
-                title={'text': "Probabilité de défaut de remboursement (1)"},
+                title={'text': "Score du client"},
                 gauge={
                     'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "white"},
                     'bar': {'color': "orange"},
@@ -72,6 +72,12 @@ if st.sidebar.button("Lancer la simulation"):
                         'thickness': 0.9,
                         'value': 0.9}}  
             ))
+
+            # Supprimer la couleur de fond (mettre transparent)
+            gauge.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)',  # Fond transparent
+                plot_bgcolor='rgba(0,0,0,0)'    # Fond transparent du graphique
+            )
 
             st.write(f"**Score de probabilité pour le client sélectionné ({selected_id}):**")
             st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")

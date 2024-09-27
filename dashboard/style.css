@@ -1,7 +1,30 @@
 /* custom_styles.css */
-.sidebar .sidebar-content {
-    background-color: #F0F2F6;
+[data-testid="stSidebar"] {
+    background-color: #d7d8d7;
 }
-.css-1aumxhk {
-    background-color: #FF4B4B;
+/* .main {
+    background-color: #FFF;
+    color: #000 !important;
+} */
+h1 {
+    color: #7360F0;
+}
+.css-q8sbsg p {
+    color: #000;
+}
+.css-w770g5, .e1ewe7hr10 {
+    background-color: #7360F0;
+    color: #FFF;
+}
+.css-w770g5:hover, .e1ewe7hr10:hover, .stButton:hover {
+    border: 1x solid #F0EE60 !important;
+    color: #F0EE60;
+}
+.st-by, .st-bt {
+    background-color: #FFF;
+    color: #7360F0;
+    border: 1x solid #7360F0 !important;
+}
+.st-by li:hover {
+    background-color: #F0EE60;
 }
