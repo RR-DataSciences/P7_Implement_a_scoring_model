@@ -9,17 +9,31 @@ import shap
 import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
+projet_7 = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring'
+
 # Lire le fichier CSV - train
-path_train = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/data/API_test"
+path_train = f"{projet_7}/data/API_test"
 df_train = pd.read_csv(f'{path_train}/train_imputed_df_api.csv', sep=';', index_col='SK_ID_CURR')
 
 # Lire le fichier CSV - test
-path_test = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/data/API_test"
+path_test = f"{projet_7}/data/API_test"
 df_test = pd.read_csv(f'{path_test}/test_imputed_df_api_20.csv', sep=';', index_col='SK_ID_CURR')
 
+# Fonction pour lire le fichier CSS
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Charger le fichier CSS
+local_css(f"{projet_7}/P7_Implement_a_scoring_model/dashboard/style.css")
+
+# Ajouter un logo dans la barre latérale
+logo_path = f"{projet_7}/P7_Implement_a_scoring_model/API/logo.jpg"
+st.sidebar.image(logo_path, use_column_width=True)
+
 # Placer le sélecteur dans la barre latérale
-st.header.title("Sélection Client")
-selected_id = st.header.selectbox("Sélectionnez un identifiant client", df_test.index)
+st.sidebar.title("Sélection Client")
+selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
 
 # Extraire les données pour l'individu sélectionné
 selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
@@ -32,7 +46,7 @@ url = "http://52.208.94.112:5000/predict"
 
 st.write(f"**Version 1**")
 
-if st.button("Lancer la simulation"):
+if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
     
     if response.status_code == 200:
