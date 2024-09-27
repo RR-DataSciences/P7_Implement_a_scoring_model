@@ -18,8 +18,8 @@ path_test = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_
 df_test = pd.read_csv(f'{path_test}/test_imputed_df_api_20.csv', sep=';', index_col='SK_ID_CURR')
 
 # Placer le sélecteur dans la barre latérale
-st.sidebar.title("Sélection Client")
-selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
+st.header.title("Sélection Client")
+selected_id = st.header.selectbox("Sélectionnez un identifiant client", df_test.index)
 
 # Extraire les données pour l'individu sélectionné
 selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
