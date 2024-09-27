@@ -17,8 +17,9 @@ df_train = pd.read_csv(f'{path_train}/train_imputed_df_api.csv', sep=';', index_
 path_test = "C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/data/API_test"
 df_test = pd.read_csv(f'{path_test}/test_imputed_df_api_20.csv', sep=';', index_col='SK_ID_CURR')
 
-# Sélecteur pour choisir un individu
-selected_id = st.selectbox("Sélectionnez un identifiant client", df_test.index)
+# Placer le sélecteur dans la barre latérale
+st.sidebar.title("Sélection Client")
+selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
 
 # Extraire les données pour l'individu sélectionné
 selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
@@ -31,7 +32,7 @@ url = "http://52.208.94.112:5000/predict"
 
 st.write(f"**Version 1**")
 
-if st.button("Faire une prédiction - Test"):
+if st.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
     
     if response.status_code == 200:
@@ -77,9 +78,9 @@ if st.button("Faire une prédiction - Test"):
             feature_names = prediction['rfe_columns']
             
             # Vérification initiale des données
-            st.write("Données SHAP disponibles :", len(shap_details))
-            st.write("Nombre de colonnes dans shap_values :", shap_values.shape if hasattr(shap_values, 'shape') else None)
-            st.write("Nombre de colonnes dans feature_names :", len(feature_names))
+            # st.write("Données SHAP disponibles :", len(shap_details))
+            # st.write("Nombre de colonnes dans shap_values :", shap_values.shape if hasattr(shap_values, 'shape') else None)
+            # st.write("Nombre de colonnes dans feature_names :", len(feature_names))
 
             # Calcul des scores absolus pour chaque valeur
             scores_abs = np.abs(shap_values)
