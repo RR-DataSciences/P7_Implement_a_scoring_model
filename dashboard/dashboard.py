@@ -27,11 +27,11 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://34.245.235.117:5000/predict"
+url = "http://52.208.94.112:5000/predict"
 
 st.write(f"**Version 1**")
 
-if st.button("Faire une prédiction"):
+if st.button("Faire une prédiction - Test"):
     response = requests.post(url, json=data_json)
     
     if response.status_code == 200:
