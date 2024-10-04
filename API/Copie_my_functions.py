@@ -2,6 +2,7 @@ import re
 import os
 import joblib
 import mlflow
+import dill
 import numpy as np
 import pandas as pd
 import seaborn as sns
