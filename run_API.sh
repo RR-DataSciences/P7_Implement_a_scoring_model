@@ -9,4 +9,4 @@
 # Lancer l'application Flask avec gunicorn
 cd ~/P7_Implement_a_scoring_model/API/ || exit 1
 
-gunicorn --bind 0.0.0.0:5000 app:app
+nohup gunicorn --bind 0.0.0.0:5000 app:app
