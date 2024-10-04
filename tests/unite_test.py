@@ -35,7 +35,7 @@ class TestScoringModel(unittest.TestCase):
         self.assertEqual(score, 11)
 
     def test_predict(self):
-        # projet_7 = "/home/ec2-user/P7_Implement_a_scoring_model"
+        projet_7 = "/home/ec2-user/P7_Implement_a_scoring_model"
         # # Loading the scaler
         # scaler_path = f'{projet_7}/scaler_rawdata.dill'
         # with open(scaler_path, 'rb') as file:
