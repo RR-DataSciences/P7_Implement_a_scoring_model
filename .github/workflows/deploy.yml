@@ -46,11 +46,11 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Run unit tests"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           pwd
-          cd /home/ec2-user/P7_Implement_a_scoring_model/test
+          cd ~/P7_Implement_a_scoring_model && python tests/unite_test.py
           pwd
-          python unite_test.py
-          echo "python tests/ okay"
+          EOF
 
       - name: Deploy API
         run: |
