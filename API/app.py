@@ -87,7 +87,7 @@ def welcome():
     </head>
     <body>
         <div class="content">
-            <h1>V83 - Bienvenue sur votre API !</h1>
+            <h1>V84 - Bienvenue sur votre API !</h1>
         </div>
     </body>
     </html>

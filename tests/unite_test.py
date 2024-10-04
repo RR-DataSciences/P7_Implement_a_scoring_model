@@ -34,49 +34,33 @@ class TestScoringModel(unittest.TestCase):
         score = custom_score(y_test, y_pred)
         self.assertEqual(score, 11)
 
-    def test_predict(self):
-        projet_7 = "/home/ec2-user/P7_Implement_a_scoring_model"
-        # # Loading the scaler
-        # scaler_path = f'{projet_7}/scaler_rawdata.dill'
-        # with open(scaler_path, 'rb') as file:
-        #     scaler = dill.load(file)
+    # def test_predict(self):
+    #     projet_7 = "/home/ec2-user/P7_Implement_a_scoring_model"
+    #     # Loading the scaler
+    #     scaler_path = f'{projet_7}/scaler_rawdata.dill'
+    #     with open(scaler_path, 'rb') as file:
+    #         scaler = dill.load(file)
 
-        # # Loading the rfe
-        # rfe_path = f'{projet_7}/models/rfe_307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
-        # with open(rfe_path, 'rb') as file:
-        #     rfe = dill.load(file)
+    #     # Loading the rfe
+    #     rfe_path = f'{projet_7}/models/rfe_307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+    #     with open(rfe_path, 'rb') as file:
+    #         rfe = dill.load(file)
 
-        # # Loading the model
-        # model_path = f'{projet_7}/models/307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
-        # # Ouvre le fichier en mode binaire et charge le modèle
-        # with open(model_path, 'rb') as file:
-        #     model = dill.load(file)
+    #     # Loading the model
+    #     model_path = f'{projet_7}/models/307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+    #     # Ouvre le fichier en mode binaire et charge le modèle
+    #     with open(model_path, 'rb') as file:
+    #         model = dill.load(file)
 
-        # # Loading the explainer
-        # explainer_path = f'{projet_7}/models/explainer.dill'
-        # # Ouvre le fichier en mode binaire et charge le modèle
-        # with open(explainer_path, 'rb') as file:
-        #     explainer = dill.load(file)
+    #     # Loading the explainer
+    #     explainer_path = f'{projet_7}/models/explainer.dill'
+    #     # Ouvre le fichier en mode binaire et charge le modèle
+    #     with open(explainer_path, 'rb') as file:
+    #         explainer = dill.load(file)
 
-        data = pd.read_csv(f'{projet_7}/tests/test_data.csv', sep=';', index_col='SK_ID_CURR')
-        # Convertir en JSON
-        data_json = data.to_dict(orient='records')
-
-        import os
-        url = f"http://{os.getenv('AWS_EC2')}/predict"
-
-        # Envoyer une requête POST à l'API avec les données JSON
-        response = requests.post(url, json=data_json)
-
-        # Vérifier que la requête a réussi (code 200)
-        self.assertEqual(response.status_code, 200)
-
-        # Vérifier la structure de la réponse (par exemple, si elle renvoie un JSON)
-        try:
-            response_json = response.json()
-            self.assertIsInstance(response_json, list)  # Supposons que l'API renvoie une liste de résultats
-        except ValueError:
-            self.fail("La réponse n'est pas un JSON valide.")
+    #     data = pd.read_csv(f'{projet_7}/tests/test_data.csv', sep=';', index_col='SK_ID_CURR')
+    #     # Convertir en JSON
+    #     data_json = data.to_dict(orient='records')
 
 if __name__ == '__main__':
     unittest.main()

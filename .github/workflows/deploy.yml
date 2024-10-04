@@ -49,8 +49,6 @@ jobs:
           pwd
           pkill gunicorn || true
           nohup bash ~/P7_Implement_a_scoring_model/run_API.sh &
-          disown
-          exit 0
           curl --fail http://${{ env.AWS_EC2 }}/predict || exit 1
           EOF
       - name: Run unit tests
