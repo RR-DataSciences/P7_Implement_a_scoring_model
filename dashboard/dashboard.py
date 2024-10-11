@@ -42,7 +42,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://34.254.161.117:5000/predict"
+url = "http://3.248.255.166:5000/predict"
 
 st.write(f"**Outil de prédiction et de visualisation pour les demandes de crédits à la consommation**")
 
