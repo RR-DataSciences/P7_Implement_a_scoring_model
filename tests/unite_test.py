@@ -40,7 +40,7 @@ class TestScoringModel(unittest.TestCase):
         ###################### Import models ######################
         projet_7 = "/home/ec2-user/P7_Implement_a_scoring_model"
         # Loading the scaler
-        scaler_path = f'{projet_7}/scaler_rawdata.dill'
+        scaler_path = f'{projet_7}/models/scaler_rawdata.dill'
         with open(scaler_path, 'rb') as file:
             scaler = dill.load(file)
         # Loading the rfe
