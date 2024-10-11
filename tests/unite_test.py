@@ -79,7 +79,8 @@ class TestScoringModel(unittest.TestCase):
 
         ###################### Explainer ######################
         shap_values = explainer(data_scaled_rfe)
-        shap.plots.force(shap_values[0],
+        print(f"Shape of shap_values: {shap_values.shape}")
+        shap.plots.force(shap_values,
                              feature_names=features,
                              out_names='TARGET',
                              matplotlib=True,
