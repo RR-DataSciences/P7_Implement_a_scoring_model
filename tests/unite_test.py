@@ -61,9 +61,9 @@ class TestScoringModel(unittest.TestCase):
         ###################### Data Treatment ######################
         data = pd.read_csv(f'{projet_7}/tests/test_data.csv', sep=';', index_col='SK_ID_CURR')
         # Prétraitement des données si nécessaire
-        data_scaled = scaler.transform(data.drop(columns='TARGET'))
+        data_scaled = scaler.transform(data)
         # Convert the scaled data back to DataFrame to keep column names
-        features = list(data.drop(columns='TARGET').columns)
+        features = list(data.columns)
         data_scaled = pd.DataFrame(data_scaled, columns=features, index=data.index)
         # Apply special character deletion to column names
         data_scaled.columns = data_scaled.columns.map(MF.replace_special_chars)
