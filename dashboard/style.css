@@ -1,20 +1,20 @@
 /* custom_styles.css */
 [data-testid="stSidebar"] {
-    background-color: #d7d8d7;
+    background-color: #7360F0;
 }
 /* .main {
     background-color: #FFF;
     color: #000 !important;
 } */
 h1 {
-    color: #7360F0;
+    color: #000;
 }
 .css-q8sbsg p {
     color: #000;
 }
 .css-w770g5, .e1ewe7hr10 {
-    background-color: #7360F0;
-    color: #FFF;
+    background-color: #F0EE60;
+    color: #7360F0;
 }
 .css-w770g5:hover, .e1ewe7hr10:hover, .stButton:hover {
     border: 1x solid #F0EE60 !important;
@@ -26,5 +26,5 @@ h1 {
     border: 1x solid #7360F0 !important;
 }
 .st-by li:hover {
-    background-color: #F0EE60;
+    background-color: #000;
 }

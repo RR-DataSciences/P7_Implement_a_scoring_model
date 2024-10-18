@@ -29,7 +29,14 @@ local_css(f"{projet_7}/P7_Implement_a_scoring_model/dashboard/style.css")
 
 # Ajouter un logo dans la barre latérale
 logo_path = f"{projet_7}/P7_Implement_a_scoring_model/API/logo.jpg"
-st.sidebar.image(logo_path, use_column_width=True)
+import os
+
+# Vérifiez si le chemin existe
+if os.path.exists(logo_path):
+    st.sidebar.image(logo_path, use_column_width=True)
+else:
+    st.sidebar.write("Le fichier image n'a pas été trouvé.")
+# st.sidebar.image(logo_path, use_column_width=True)
 
 # Placer le sélecteur dans la barre latérale
 st.sidebar.title("Dashboard de simulation pour l'attribution d'un prêt bancaire")
@@ -42,9 +49,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://34.255.118.246:5000/predict"
-
-st.write(f"**Outil de prédiction et de visualisation pour les demandes de crédits à la consommation**")
+url = "http://54.229.244.22:5000/predict"
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)

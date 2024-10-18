@@ -6,7 +6,7 @@ on:
       - master
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-34-255-118-246.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-54-229-244-22.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
 # permission can be added at job level or workflow level
 permissions:
@@ -39,23 +39,19 @@ jobs:
       - name: Connect & Execute commands on EC2
         run: | 
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
-          pwd
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
-          pwd
           EOF
       - name: Run unit tests
         run: |
           echo "Run unit tests"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
-          pwd
           cd ~/P7_Implement_a_scoring_model && python tests/unite_test.py
-          pwd
           EOF
 
       - name: Deploy API
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
-          pwd
+
           pkill gunicorn || true
           echo "gunicorn killed"
 
@@ -66,4 +62,3 @@ jobs:
           # nohup bash ~/P7_Implement_a_scoring_model/run_API.sh &
           # echo "nohup it's okay !"
           EOF
-      
