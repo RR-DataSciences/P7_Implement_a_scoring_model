@@ -83,18 +83,19 @@ def welcome():
                 font-size: 20px;
                 background-color: #53325C; /* Fond semi-transparent pour le texte */
                 border-radius: 10px;
-                border-color: #F0EE60;
+                margin-top: 20px;
+                margin-left: 20px;
                 float: left;
             }
             .content h1 {
-                padding: 5px, 10px, 15px, 20px;
-                margin: 10px;
+                padding: 5px;
+                border: 2px solid #F0EE60;
             }
         </style>
     </head>
     <body>
         <div class="content">
-            <h1>V96 - Bienvenue sur votre API !</h1>
+            <h1>API - Modèle de scoring</h1>
         </div>
     </body>
     </html>
