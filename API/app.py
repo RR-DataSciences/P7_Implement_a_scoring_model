@@ -66,7 +66,6 @@ def welcome():
             body, html {
                 height: 100%;
                 margin: 0;
-                display: flex;
                 justify-content: center;
                 align-items: center;
             }
@@ -82,10 +81,14 @@ def welcome():
                 color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: #7360F0; /* Fond semi-transparent pour le texte */
-                padding: 10px;
+                background-color: #53325C; /* Fond semi-transparent pour le texte */
                 border-radius: 10px;
+                border-color: #F0EE60;
                 float: left;
+            }
+            .content h1 {
+                padding: 5px, 10px, 15px, 20px;
+                margin: 10px;
             }
         </style>
     </head>
