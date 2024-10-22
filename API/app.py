@@ -68,14 +68,14 @@ def welcome():
                 margin: 0;
                 justify-content: center;
                 align-items: center;
-                background-image: url('/static/fond_API_GPT.jpeg');
-                background-size: contain;
-                background-position: center;
-                background-repeat: no-repeat;
             }
             body {
                 width: 100%;
-                
+                background-image: url('/static/fond_API_GPT.jpeg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                padding-top: 10px;
             }
             .content {
                 text-align: center;
