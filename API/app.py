@@ -86,11 +86,12 @@ def welcome():
                 margin: auto;
                 border: 2px solid #F0EE60;
                 width: 50%;
-                position: fixed; /* Fixe le bloc par rapport à la fenêtre */
-                bottom: 10px;
+                margin-top: 300px;
             }
             .content h1 {
                 padding: 2px;
+                margin: 0px;
+                padding: 0px;
             }
         </style>
     </head>
