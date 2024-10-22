@@ -79,7 +79,8 @@ def welcome():
                 color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: #E8A463; /* Fond semi-transparent pour le texte */
+                # background-color: #E8A463; /* Fond semi-transparent pour le texte */
+                background-image: url('C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring/P7_Implement_a_scoring_model/API/fond_API_GPT.webp');
                 padding: 10px;
                 border-radius: 10px;
             }

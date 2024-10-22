@@ -29,17 +29,13 @@ local_css(f"{projet_7}/P7_Implement_a_scoring_model/dashboard/style.css")
 
 # Ajouter un logo dans la barre latérale
 logo_path = f"{projet_7}/P7_Implement_a_scoring_model/API/logo.jpg"
-import os
 
-# Vérifiez si le chemin existe
-if os.path.exists(logo_path):
-    st.sidebar.image(logo_path, use_column_width=True)
-else:
-    st.sidebar.write("Le fichier image n'a pas été trouvé.")
-# st.sidebar.image(logo_path, use_column_width=True)
+
+st.sidebar.markdown("<h1 class='naming'>Prêt à dépenser</h1>", unsafe_allow_html=True)
+
+st.sidebar.markdown("<h2 class='naming'>Dashboard de simulation pour l'attribution d'un prêt bancaire</h2>", unsafe_allow_html=True)
 
 # Placer le sélecteur dans la barre latérale
-st.sidebar.title("Dashboard de simulation pour l'attribution d'un prêt bancaire")
 selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
 
 # Extraire les données pour l'individu sélectionné
@@ -49,7 +45,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://54.229.244.22:5000/predict"
+url = "http://54.74.102.2:5000/predict"
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
@@ -68,7 +64,7 @@ if st.sidebar.button("Lancer la simulation"):
                 title={'text': "Score du client"},
                 gauge={
                     'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "white"},
-                    'bar': {'color': "orange"},
+                    'bar': {'color': "#F0EE60"},
                     'steps': [
                         {'range': [0, 0.9], 'color': "indianred"},
                         {'range': [0.9, 1], 'color': "lightgreen"}],
@@ -81,13 +77,14 @@ if st.sidebar.button("Lancer la simulation"):
             # Supprimer la couleur de fond (mettre transparent)
             gauge.update_layout(
                 paper_bgcolor='rgba(0,0,0,0)',  # Fond transparent
-                plot_bgcolor='rgba(0,0,0,0)'    # Fond transparent du graphique
+                plot_bgcolor='rgba(0,0,0,0)',    # Fond transparent du graphique
+                width=300,
+                height=300
             )
-
-            st.write(f"**Score de probabilité pour le client sélectionné ({selected_id}):**")
-            st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")
-            st.plotly_chart(gauge)
-
+            
+            # Titre de la partie résultat
+            st.markdown(f"<h1 class='simulation'>[Client {selected_id}] - Résultat de la simulation</h1>", unsafe_allow_html=True)
+            # st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")
             
             # st.write(f"Description du dataset: {data.shape}")
             # st.write(f"Description du dataset: {prediction['rfe_columns']}")
@@ -123,65 +120,73 @@ if st.sidebar.button("Lancer la simulation"):
             # Sélection des trois variables les plus influentes
             top_features = df_scores_sorted.head(3)
             top_features_list = top_features['feature'].tolist()
-            
-            # Affichage des variables les plus influentes
-            st.write("### Variables les plus influentes pour la prédiction")
-            for index, row in top_features.iterrows():
-                st.write(f"{index+1}. {row['feature']}: SHAP score = {row['score']:.2f}")
-            
+
+            # Créer deux colonnes
+            col1, col2 = st.columns([1, 1])  # Les valeurs dans la liste [1, 1] définissent la largeur des colonnes. Vous pouvez ajuster ces valeurs.
+
+            # Afficher la jauge dans la première colonne
+            with col1:
+                # Affichage des variables les plus influentes
+                # st.write("### Variables les plus influentes pour la prédiction")
+                # for index, row in top_features.iterrows():
+                #     st.write(f"{index+1}. {row['feature']}: SHAP score = {row['score']:.2f}")
+                # Ajout du client sélection au données comparatives
+                selected_customer = df_test.loc[df_test.index == selected_id]
+                # st.write(f"Affiche les données d'entrainements: {selected_customer}")
+                if score[1] < 90:
+                    st.markdown(f"<h2 class='proba'>Probabilité de défaut de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
+                    target = 0
+                    st.write(f"Target: {target}")
+                    selected_customer['TARGET'] = target
+                elif score[1] >= 90:
+                    st.markdown(f"<h2 class='proba'>Probabilité de défaut de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
+                    target = 1
+                    st.write(f"Target: {target}")
+                    selected_customer['TARGET'] = target
+            with col2:
+                st.plotly_chart(gauge)
+
             # Creating a SHAP Explanation object
             shap_exp = shap.Explanation(values=shap_values, 
                                         base_values=base_value, 
                                         data=features, 
                                         feature_names=feature_names)
 
-            # Displaying the SHAP Force Plot
-            st.write(f"**SHAP Force Plot for the selected client ({selected_id}):**")
-            shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-            st.set_option('deprecation.showPyplotGlobalUse', False)
-            st.pyplot()
+            tab1, tab2, tab3 = st.tabs(["SHAP - Poids des variables dans la prédiction", "Distribution des 3 variables les plus influentes", "Owl"])
 
-            ################## Affiche les données comparatives #########
-
-            # Ajout du client sélection au données comparatives
-            selected_customer = df_test.loc[df_test.index == selected_id]
-            st.write(f"Affiche les données d'entrainements: {selected_customer}")
-            if score[1] < 90:
-                st.write(f"Affiche le score de prédiction: {score[1]}")
-                target = 0
-                st.write(f"Target: {target}")
-                selected_customer['TARGET'] = target
-            elif score[1] >= 90:
-                st.write(f"Affiche le score de prédiction: {score[1]}")
-                target = 1
-                st.write(f"Target: {target}")
-                selected_customer['TARGET'] = target
-
-            st.write(f"Target: {selected_customer[top_features_list+['TARGET']]}")
-
-
-            df_best_features = df_train[top_features_list+['TARGET']]
-            st.write(f"Affiche les données d'entrainements: {df_best_features}")
-            
-            # Création d'une grille de sous-graphiques
-            fig = make_subplots(rows=1, cols=len(top_features_list), subplot_titles=top_features_list)
-
-            # Créer des histogrammes pour chaque caractéristique sélectionnée
-            for i, feature in enumerate(top_features_list):
-                x1 = df_best_features.loc[df_best_features['TARGET'] == 0, feature]
-                x2 = df_best_features.loc[df_best_features['TARGET'] == 1, feature]
+            with tab1:
+                # Displaying the SHAP Force Plot
+                st.write(f"**SHAP Force Plot for the selected client ({selected_id}):**")
+                shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
+                st.set_option('deprecation.showPyplotGlobalUse', False)
+                st.pyplot()
+            with tab2:
+                df_best_features = df_train[top_features_list+['TARGET']]
+                # st.write(f"Affiche les données d'entrainements: {df_best_features}")
                 
-                fig.add_trace(go.Histogram(x=x1, name='Clients ayant remboursé', marker_color='slategray'), row=1, col=i+1)
-                fig.add_trace(go.Histogram(x=x2, name='Clients avec défaut', marker_color='magenta'), row=1, col=i+1)
+                # Création d'une grille de sous-graphiques
+                fig = make_subplots(rows=1, cols=len(top_features_list), subplot_titles=top_features_list)
 
-            # Mettre à jour le layout pour une meilleure lisibilité
-            fig.update_layout(barmode='overlay')
-            fig.update_traces(opacity=0.75)
+                # Créer des histogrammes pour chaque caractéristique sélectionnée
+                for i, feature in enumerate(top_features_list):
+                    x1 = df_best_features.loc[df_best_features['TARGET'] == 0, feature]
+                    x2 = df_best_features.loc[df_best_features['TARGET'] == 1, feature]
+                    
+                    fig.add_trace(go.Histogram(x=x1, name='Clients ayant remboursé', marker_color='slategray'), row=1, col=i+1)
+                    fig.add_trace(go.Histogram(x=x2, name='Clients avec défaut', marker_color='magenta'), row=1, col=i+1)
 
-            # Ajuster la taille et afficher la figure
-            fig.update_layout(width=1200, height=400)
-            st.plotly_chart(fig, use_container_width=True)
+                # Mettre à jour le layout pour une meilleure lisibilité
+                fig.update_layout(barmode='overlay')
+                fig.update_traces(opacity=0.75)
 
+                # Ajuster la taille et afficher la figure
+                fig.update_layout(width=1200, height=400)
+                st.plotly_chart(fig, use_container_width=True)
+                with tab3:
+                    st.header("An owl")
+                    st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+
+            # st.write(f"Target: {selected_customer[top_features_list+['TARGET']]}")
 
         else:
             st.error("Les valeurs SHAP ne sont pas présentes dans la réponse.")
