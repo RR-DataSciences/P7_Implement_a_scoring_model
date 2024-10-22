@@ -75,7 +75,6 @@ def welcome():
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
-                padding-top: 10px;
             }
             .content {
                 text-align: center;
@@ -84,9 +83,7 @@ def welcome():
                 font-size: 20px;
                 background-color: #53325C; /* Fond semi-transparent pour le texte */
                 border-radius: 10px;
-                margin-top: 20px;
-                margin-left: 20px;
-                float: left;
+                margin: auto;
                 border: 2px solid #F0EE60;
             }
             .content h1 {
