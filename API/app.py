@@ -85,9 +85,11 @@ def welcome():
                 border-radius: 10px;
                 margin: auto;
                 border: 2px solid #F0EE60;
+                width: 50%
             }
             .content h1 {
-                padding: 5px;
+                padding: 2px;
+                margin: none;
             }
         </style>
     </head>
