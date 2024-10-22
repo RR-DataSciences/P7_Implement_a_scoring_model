@@ -72,7 +72,7 @@ def welcome():
             body {
                 width: 100%;
                 background-image: url('/static/fond_API_GPT.jpeg');
-                background-size: cover;
+                background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
             }
@@ -86,10 +86,10 @@ def welcome():
                 margin-top: 20px;
                 margin-left: 20px;
                 float: left;
+                border: 2px solid #F0EE60;
             }
             .content h1 {
                 padding: 5px;
-                border: 2px solid #F0EE60;
             }
         </style>
     </head>
