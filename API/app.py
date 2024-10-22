@@ -85,7 +85,9 @@ def welcome():
                 border-radius: 10px;
                 margin: auto;
                 border: 2px solid #F0EE60;
-                width: 50%
+                width: 50%;
+                # position: fixed; /* Fixe le bloc par rapport à la fenêtre */
+                # bottom: 10px;
             }
             .content h1 {
                 padding: 2px;
