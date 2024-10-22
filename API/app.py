@@ -65,12 +65,13 @@ def welcome():
         <style>
             body, html {
                 height: 100%;
-                width: 100%;
                 margin: 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                # background-color: #000;
+            }
+            body {
+                width: 100%;
                 background-image: url('/static/fond_API_GPT.jpeg');
                 background-size: cover;
                 background-position: center;
@@ -81,9 +82,10 @@ def welcome():
                 color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: #E8A463; /* Fond semi-transparent pour le texte */
+                background-color: #7360F0; /* Fond semi-transparent pour le texte */
                 padding: 10px;
                 border-radius: 10px;
+                float: left;
             }
         </style>
     </head>
