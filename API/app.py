@@ -69,7 +69,7 @@ def welcome():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-image: url('fond_API_GPT.jpeg');
+                background-image: url('/home/ec2-user/P7_Implement_a_scoring_model/API/fond_API_GPT.jpeg');
                 # background-size: cover;
                 # background-position: center;
                 # background-repeat: no-repeat;
