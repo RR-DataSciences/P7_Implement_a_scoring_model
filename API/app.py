@@ -65,14 +65,15 @@ def welcome():
         <style>
             body, html {
                 height: 100%;
+                width: 100%;
                 margin: 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 background-image: url('/home/ec2-user/P7_Implement_a_scoring_model/API/fond_API_GPT.jpeg');
-                # background-size: cover;
-                # background-position: center;
-                # background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
             }
             .content {
                 text-align: center;
