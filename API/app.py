@@ -70,17 +70,18 @@ def welcome():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-image: url('/home/ec2-user/P7_Implement_a_scoring_model/API/fond_API_GPT.jpeg');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
+                background-color: #000;
+                # background-image: url('/home/ec2-user/P7_Implement_a_scoring_model/API/fond_API_GPT.jpeg');
+                # background-size: cover;
+                # background-position: center;
+                # background-repeat: no-repeat;
             }
             .content {
                 text-align: center;
                 color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: #E8A463; /* Fond semi-transparent pour le texte */
+                # background-color: #E8A463; /* Fond semi-transparent pour le texte */
                 padding: 10px;
                 border-radius: 10px;
             }
