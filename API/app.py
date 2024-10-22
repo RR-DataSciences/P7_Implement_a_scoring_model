@@ -86,7 +86,7 @@ def welcome():
                 margin: auto;
                 border: 2px solid #F0EE60;
                 width: 50%;
-                margin-top: 300px;
+                margin-top: 600px;
             }
             .content h1 {
                 padding: 2px;
