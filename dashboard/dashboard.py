@@ -27,13 +27,13 @@ def local_css(file_name):
 # Charger le fichier CSS
 local_css(f"{projet_7}/P7_Implement_a_scoring_model/dashboard/style.css")
 
-# Ajouter un logo dans la barre latérale
-logo_path = f"{projet_7}/P7_Implement_a_scoring_model/API/logo.jpg"
-
-
 st.sidebar.markdown("<h1 class='naming'>Prêt à dépenser</h1>", unsafe_allow_html=True)
 
-st.sidebar.markdown("<h2 class='naming'>Dashboard de simulation pour l'attribution d'un prêt bancaire</h2>", unsafe_allow_html=True)
+# Ajouter un logo dans la barre latérale
+logo_path = f"{projet_7}/P7_Implement_a_scoring_model/dashboard/images/Logo_GPT_v2.png"
+st.sidebar.image(logo_path, use_column_width="auto")
+
+st.header("Dashboard de simulation pour l'attribution d'un prêt bancaire")
 
 # Placer le sélecteur dans la barre latérale
 selected_id = st.sidebar.selectbox("Sélectionnez un identifiant client", df_test.index)
@@ -45,7 +45,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://54.74.102.2:5000/predict"
+url = "http://54.229.88.7:5000/predict"
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
@@ -193,4 +193,4 @@ if st.sidebar.button("Lancer la simulation"):
     else:
         st.error(f"Erreur lors de la requête API: {response.status_code}")
 else:
-    st.info("Veuillez sélectionner un client et appuyer sur le bouton pour faire une prédiction.")
+    st.info("Veuillez sélectionner un client et appuyer sur le bouton pour lancer une simulation.")

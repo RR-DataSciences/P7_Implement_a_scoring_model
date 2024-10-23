@@ -2,23 +2,13 @@
 [data-testid="stSidebar"] {
     background-color: #7360F0;
 }
-/* .main {
-    background-color: #FFF;
-    color: #000 !important;
-} */
-h2 {
-    color: #000;
-}
-/* .css-q8sbsg p {
-    color: #000;
-} */
 .css-w770g5, .e1ewe7hr10 {
     background-color: #F0EE60;
     color: #000;
 }
 .css-w770g5:hover, .e1ewe7hr10:hover, .stButton:hover {
     border-color: #000 !important;
-    color: #7360F0;
+    color: #7360F0 !important;
 }
 /* .st-by, .st-bt {
     background-color: #FFF;
@@ -28,8 +18,9 @@ h2 {
 /* .st-by li:hover {
     background-color: #000;
 } */
-h1 .naming {
+.stMarkdown h1 {
     text-transform: uppercase;
+    text-align: center !important;
 }
 .simulation {
     color: #F0EE60;
@@ -38,8 +29,20 @@ h1 .naming {
 .block-container {
     width: 80%;
 }
-.st-at {
-    background-color: #F0EE60 !important;
-    border: 2px solid #7360F0 !important;
-    color: #7360F0;
+.stAlert {
+    background-color: #7360F0 !important;
+    border: 1px solid #F0EE60 !important;
+    color: #000;
+    text-align: center !important;
+    width: 60%;
+    margin: 30px auto;
+}
+#482a97d0 {
+    color: #fff;
+}
+.st-emotion-cache-13ln4jf {
+    max-width: 90% !important;
+}
+.st-ae:focus {
+    border-color: #F0EE60 !important;
 }
