@@ -38,3 +38,8 @@ h1 .naming {
 .block-container {
     width: 80%;
 }
+.st-at {
+    background-color: #F0EE60 !important;
+    border: 2px solid #7360F0 !important;
+    color: #7360F0;
+}

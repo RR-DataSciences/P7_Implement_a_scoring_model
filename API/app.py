@@ -81,17 +81,17 @@ def welcome():
                 color: white;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
-                background-color: #53325C; /* Fond semi-transparent pour le texte */
+                background-color: #F0EE60; /* Fond semi-transparent pour le texte */
                 border-radius: 10px;
                 margin: auto;
-                border: 2px solid #F0EE60;
+                border: 2px solid #53325C;
                 width: 50%;
-                margin-top: 600px;
+                margin-top: 700px;
             }
             .content h1 {
                 padding: 2px;
                 margin: 0px;
-                padding: 0px;
+                padding: 5px 0px;
             }
         </style>
     </head>
