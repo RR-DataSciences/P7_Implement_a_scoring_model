@@ -18,13 +18,15 @@
 /* .st-by li:hover {
     background-color: #000;
 } */
-.stMarkdown h1 {
+h1.naming {
     text-transform: uppercase;
     text-align: center !important;
 }
 .simulation {
-    color: #F0EE60;
+    color: #7360F0;
     font-size: 1em !important;
+    text-align: left !important;
+    margin-top: 40px;
 }
 .block-container {
     width: 80%;
@@ -37,12 +39,32 @@
     width: 60%;
     margin: 30px auto;
 }
-#482a97d0 {
+[data-testid="stHeadingWithActionElements"] h2 {
     color: #fff;
+    margin-bottom: 20px;
+    border-bottom: #F0EE60 solid 2px;
 }
 .st-emotion-cache-13ln4jf {
     max-width: 90% !important;
 }
 .st-ae:focus {
     border-color: #F0EE60 !important;
+}
+.e1f1d6gn1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+.stHorizontalBlock .e1q9reml2{
+    color: #F0EE60;
+    font-size: 20px;
+}
+.svg-container {
+    margin: auto !important;
+}
+.stTabs {
+    margin-top: -60px;
+}
+.stTable tbody {
+    color: #FFF !important;
+    font-size: 14px !important;
 }

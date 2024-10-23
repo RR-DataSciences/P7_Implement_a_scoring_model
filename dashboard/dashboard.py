@@ -6,6 +6,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 import plotly.figure_factory as ff
 import shap
+import warnings
 import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
@@ -78,17 +79,10 @@ if st.sidebar.button("Lancer la simulation"):
             gauge.update_layout(
                 paper_bgcolor='rgba(0,0,0,0)',  # Fond transparent
                 plot_bgcolor='rgba(0,0,0,0)',    # Fond transparent du graphique
-                width=300,
-                height=300
+                width=450,
+                height=350
             )
             
-            # Titre de la partie résultat
-            st.markdown(f"<h1 class='simulation'>[Client {selected_id}] - Résultat de la simulation</h1>", unsafe_allow_html=True)
-            # st.write(f"Probabilité de défaut de remboursement (1) : {score[1]:.3f}")
-            
-            # st.write(f"Description du dataset: {data.shape}")
-            # st.write(f"Description du dataset: {prediction['rfe_columns']}")
-            # st.write(f"Description du dataset: {prediction['shap_details']}")
 
             # Since shap_details is a list, you need to access its first element (or the one you need)
             shap_detail = shap_details[0]  # Assuming you want the first dictionary in the list
@@ -98,11 +92,6 @@ if st.sidebar.button("Lancer la simulation"):
             base_value = shap_detail['base_value']
             features = np.array(shap_detail['features'])
             feature_names = prediction['rfe_columns']
-            
-            # Vérification initiale des données
-            # st.write("Données SHAP disponibles :", len(shap_details))
-            # st.write("Nombre de colonnes dans shap_values :", shap_values.shape if hasattr(shap_values, 'shape') else None)
-            # st.write("Nombre de colonnes dans feature_names :", len(feature_names))
 
             # Calcul des scores absolus pour chaque valeur
             scores_abs = np.abs(shap_values)
@@ -131,18 +120,41 @@ if st.sidebar.button("Lancer la simulation"):
                 # for index, row in top_features.iterrows():
                 #     st.write(f"{index+1}. {row['feature']}: SHAP score = {row['score']:.2f}")
                 # Ajout du client sélection au données comparatives
+
+                # Titre de la partie résultat
+                st.markdown(f"<h1 class='simulation'>Résultat de la simulation pour le client:</h1>", unsafe_allow_html=True)
+
                 selected_customer = df_test.loc[df_test.index == selected_id]
+                
                 # st.write(f"Affiche les données d'entrainements: {selected_customer}")
-                if score[1] < 90:
-                    st.markdown(f"<h2 class='proba'>Probabilité de défaut de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
+                if score[1] < 0.90:
+                    # st.markdown(f"<h2 class='proba'>Probabilité de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
                     target = 0
-                    st.write(f"Target: {target}")
+                    # st.write(f"Target: {target}")
                     selected_customer['TARGET'] = target
-                elif score[1] >= 90:
-                    st.markdown(f"<h2 class='proba'>Probabilité de défaut de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
+                    # Créer un DataFrame de type "clé-valeur"
+                    df_results_negatif = pd.DataFrame({
+                        "Description": ["N° Client", "Probabilité de remboursement", "Autorisation de prêt"],
+                        "Valeur": [selected_id, f"{score[1]:.3f}", "Prêt refusé"]
+                    })
+                    # Définir "Description" comme index
+                    df_results_negatif.set_index("Description", inplace=True)
+                    # Afficher le tableau sous forme de clé-valeur
+                    st.table(df_results_negatif)
+                elif score[1] >= 0.90:
+                    # st.markdown(f"<h2 class='proba'>Probabilité de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
                     target = 1
-                    st.write(f"Target: {target}")
+                    # st.write(f"Target: {target}")
                     selected_customer['TARGET'] = target
+                    # Créer un DataFrame de type "clé-valeur"
+                    df_results_positif = pd.DataFrame({
+                        "Description": ["Probabilité de remboursement", "Autorisation de prêt"],
+                        "Valeur": [f"{score[1]:.3f}", "Prêt accordé"]
+                    })
+                    # Définir "Description" comme index
+                    df_results_positif.set_index("Description", inplace=True)
+                    # Afficher le tableau sous forme de clé-valeur
+                    st.table(df_results_positif)
             with col2:
                 st.plotly_chart(gauge)
 
@@ -152,14 +164,19 @@ if st.sidebar.button("Lancer la simulation"):
                                         data=features, 
                                         feature_names=feature_names)
 
-            tab1, tab2, tab3 = st.tabs(["SHAP - Poids des variables dans la prédiction", "Distribution des 3 variables les plus influentes", "Owl"])
+            tab1, tab2, tab3 = st.tabs(["Influence des variables", "Distribution des variables (TOP 3)", "Données client"])
 
             with tab1:
-                # Displaying the SHAP Force Plot
-                st.write(f"**SHAP Force Plot for the selected client ({selected_id}):**")
-                shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-                st.set_option('deprecation.showPyplotGlobalUse', False)
-                st.pyplot()
+                # Créer un graphique SHAP et l'enregistrer sous forme d'image
+                fig, ax = plt.subplots()
+                shap_plot = shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
+                plt.savefig("shap_force_plot.png", bbox_inches='tight')  # Enregistre l'image en tant que fichier
+
+                # Afficher le graphique en utilisant Streamlit
+                st.image("shap_force_plot.png")
+                # shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
+                # # st.set_option('deprecation.showPyplotGlobalUse', False)
+                # st.pyplot()
             with tab2:
                 df_best_features = df_train[top_features_list+['TARGET']]
                 # st.write(f"Affiche les données d'entrainements: {df_best_features}")
@@ -172,8 +189,8 @@ if st.sidebar.button("Lancer la simulation"):
                     x1 = df_best_features.loc[df_best_features['TARGET'] == 0, feature]
                     x2 = df_best_features.loc[df_best_features['TARGET'] == 1, feature]
                     
-                    fig.add_trace(go.Histogram(x=x1, name='Clients ayant remboursé', marker_color='slategray'), row=1, col=i+1)
-                    fig.add_trace(go.Histogram(x=x2, name='Clients avec défaut', marker_color='magenta'), row=1, col=i+1)
+                    fig.add_trace(go.Histogram(x=x1, name='Clients ayant remboursé', marker_color='#7360F0', legendgroup="clients_rembo", showlegend=(i==0)), row=1, col=i+1)
+                    fig.add_trace(go.Histogram(x=x2, name='Clients avec défaut', marker_color='#F0EE60', legendgroup="clients_defaut", showlegend=(i==0)), row=1, col=i+1)
 
                 # Mettre à jour le layout pour une meilleure lisibilité
                 fig.update_layout(barmode='overlay')
@@ -183,8 +200,7 @@ if st.sidebar.button("Lancer la simulation"):
                 fig.update_layout(width=1200, height=400)
                 st.plotly_chart(fig, use_container_width=True)
                 with tab3:
-                    st.header("An owl")
-                    st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+                    st.table(selected_customer)
 
             # st.write(f"Target: {selected_customer[top_features_list+['TARGET']]}")
 

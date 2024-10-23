@@ -92,6 +92,7 @@ def welcome():
                 padding: 2px;
                 margin: 0px;
                 padding: 5px 0px;
+                color: #53325C;
             }
         </style>
     </head>
