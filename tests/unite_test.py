@@ -80,7 +80,7 @@ class TestScoringModel(unittest.TestCase):
         ###################### Explainer ######################
         shap_values = explainer(data_scaled_rfe)
         print(f"Shape of shap_values: {shap_values.shape}")
-        print(f"shap_values: {shap_values}")
+        # print(f"shap_values: {shap_values}")
 
 if __name__ == '__main__':
     unittest.main()

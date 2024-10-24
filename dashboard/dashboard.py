@@ -31,7 +31,7 @@ local_css(f"{projet_7}/P7_Implement_a_scoring_model/dashboard/style.css")
 st.sidebar.markdown("<h1 class='naming'>Prêt à dépenser</h1>", unsafe_allow_html=True)
 
 # Ajouter un logo dans la barre latérale
-logo_path = f"{projet_7}/P7_Implement_a_scoring_model/dashboard/images/Logo_GPT_v2.png"
+logo_path = f"{projet_7}/P7_Implement_a_scoring_model/dashboard/images/Logo_GPT.png"
 st.sidebar.image(logo_path, use_column_width="auto")
 
 st.header("Dashboard de simulation pour l'attribution d'un prêt bancaire")
@@ -170,13 +170,10 @@ if st.sidebar.button("Lancer la simulation"):
                 # Créer un graphique SHAP et l'enregistrer sous forme d'image
                 fig, ax = plt.subplots()
                 shap_plot = shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-                plt.savefig("shap_force_plot.png", bbox_inches='tight')  # Enregistre l'image en tant que fichier
+                plt.savefig("/dashboard/images/shap_force_plot.png", bbox_inches='tight')  # Enregistre l'image en tant que fichier
 
                 # Afficher le graphique en utilisant Streamlit
-                st.image("shap_force_plot.png")
-                # shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-                # # st.set_option('deprecation.showPyplotGlobalUse', False)
-                # st.pyplot()
+                st.image("/dashboard/images/shap_force_plot.png")
             with tab2:
                 df_best_features = df_train[top_features_list+['TARGET']]
                 # st.write(f"Affiche les données d'entrainements: {df_best_features}")
