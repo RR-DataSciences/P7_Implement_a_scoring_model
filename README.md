@@ -1,6 +1,7 @@
+# PRET A DEPENSER
 <img src="API/static/Logo_GPT.jpg" alt="Prêt à dépenser" width="200">
 
-# [Projet 7] Implémentez un modèle de scoring
+# [Projet 7] - Implémentez un modèle de scoring
 
 ## Objectif du projet
 Le projet Prêt à dépenser vise à développer un outil de scoring de crédit pour l'entreprise de prêt bancaire Prêt à dépenser. Cet outil permet de prédire la probabilité de remboursement d'un prêt par un client potentiel, ainsi que de visualiser et d'expliquer les décisions de crédit à l'aide de valeurs SHAP (SHapley Additive exPlanations). Le projet comprend un Dashboard interactif pour simuler des scénarios d'attribution de prêt, ainsi qu'une API pour effectuer des prédictions en temps réel.
