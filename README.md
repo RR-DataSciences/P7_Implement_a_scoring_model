@@ -1,4 +1,4 @@
-![Prêt à dépenser](dashboard/images/Logo_GPT.png)
+<img src="dashboard/images/Logo_GPT.png" alt="Prêt à dépenser" width="200">
 
 # [Projet 7] Implémentez un modèle de scoring
 
