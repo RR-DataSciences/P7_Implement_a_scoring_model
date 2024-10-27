@@ -45,7 +45,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://54.171.37.232:5000/predict"
+url = "http://3.252.58.217:5000/predict"
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
@@ -115,7 +115,7 @@ if st.sidebar.button("Lancer la simulation"):
                 selected_customer = df_test.loc[df_test.index == selected_id]
                 
                 if score[1] < 0.90:
-                    target = 0
+                    target = 1
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
                     df_results_negatif = pd.DataFrame({
@@ -127,7 +127,7 @@ if st.sidebar.button("Lancer la simulation"):
                     # Afficher le tableau sous forme de clé-valeur
                     st.table(df_results_negatif)
                 elif score[1] >= 0.90:
-                    target = 1
+                    target = 0
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
                     df_results_positif = pd.DataFrame({
