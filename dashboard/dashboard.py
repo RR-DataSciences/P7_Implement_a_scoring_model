@@ -153,15 +153,10 @@ if st.sidebar.button("Lancer la simulation"):
                 # Créer un graphique SHAP et l'enregistrer sous forme d'image
                 fig, ax = plt.subplots()
                 shap_plot = shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-                # plt.savefig("/dashboard/images/shap_force_plot.png", bbox_inches='tight')
-                # Par celle-ci :
-                import os
-                script_dir = os.path.dirname(__file__)
-                image_path = os.path.join(script_dir, "images", "shap_force_plot.png")
-                plt.savefig(image_path, bbox_inches='tight')
+                plt.savefig("/images/shap_force_plot.png", bbox_inches='tight')
 
                 # Afficher le graphique en utilisant Streamlit
-                st.image("/dashboard/images/shap_force_plot.png")
+                st.image("/images/shap_force_plot.png")
             with tab2:
                 df_best_features = df_train[top_features_list+['TARGET']]
                 # Création d'une grille de sous-graphiques
