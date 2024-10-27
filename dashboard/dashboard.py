@@ -156,7 +156,7 @@ if st.sidebar.button("Lancer la simulation"):
                 plt.savefig("/dashboard/images/shap_force_plot.png", bbox_inches='tight')
 
                 # Afficher le graphique en utilisant Streamlit
-                st.image("/dashboard_images/shap_force_plot.png")
+                st.image("/dashboard/images/shap_force_plot.png")
             with tab2:
                 df_best_features = df_train[top_features_list+['TARGET']]
                 # Création d'une grille de sous-graphiques
