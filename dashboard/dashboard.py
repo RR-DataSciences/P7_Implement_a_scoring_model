@@ -12,15 +12,14 @@ from plotly.subplots import make_subplots
 
 projet_7 = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring'
 
-# Lire le fichier CSV - train
+# Lecture des fichiers CSV - train et test
 path_train = f"{projet_7}/data/API_test"
 df_train = pd.read_csv(f'{path_train}/train_imputed_df_api.csv', sep=';', index_col='SK_ID_CURR')
 
-# Lire le fichier CSV - test
 path_test = f"{projet_7}/data/API_test"
 df_test = pd.read_csv(f'{path_test}/test_imputed_df_api_20.csv', sep=';', index_col='SK_ID_CURR')
 
-# Fonction pour lire le fichier CSS
+# Fonction pour charger le fichier CSS local
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -46,7 +45,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://54.229.88.7:5000/predict"
+url = "http://54.171.37.232:5000/predict"
 
 if st.sidebar.button("Lancer la simulation"):
     response = requests.post(url, json=data_json)
@@ -58,7 +57,7 @@ if st.sidebar.button("Lancer la simulation"):
             shap_details = prediction['shap_details']
             score = prediction['score'][0]
             
-            # Configurer la jauge avec Plotly
+            # Configuration de la jauge avec Plotly
             gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=score[1],
@@ -66,7 +65,7 @@ if st.sidebar.button("Lancer la simulation"):
                 gauge={
                     'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "white"},
                     'bar': {'color': "#F0EE60"},
-                    'steps': [
+                   'steps': [
                         {'range': [0, 0.9], 'color': "indianred"},
                         {'range': [0.9, 1], 'color': "lightgreen"}],
                     'threshold': {
@@ -82,12 +81,9 @@ if st.sidebar.button("Lancer la simulation"):
                 width=450,
                 height=350
             )
-            
 
-            # Since shap_details is a list, you need to access its first element (or the one you need)
-            shap_detail = shap_details[0]  # Assuming you want the first dictionary in the list
-
-            # Extracting shap_values, base_value, and features from the dictionary
+            # Extraction des valeurs SHAP
+            shap_detail = shap_details[0]
             shap_values = np.array(shap_detail['shap_values'])
             base_value = shap_detail['base_value']
             features = np.array(shap_detail['features'])
@@ -95,16 +91,14 @@ if st.sidebar.button("Lancer la simulation"):
 
             # Calcul des scores absolus pour chaque valeur
             scores_abs = np.abs(shap_values)
-            # st.write("Scores absolus obtenus :", scores_abs)
 
             # Création d'un DataFrame avec les scores absolus et les noms des caractéristiques
             df_scores = pd.DataFrame({
                 'feature': feature_names,
-                'score': scores_abs.flatten()  # Flatten l'array 2D en 1D
+               'score': scores_abs.flatten()
             })
             # Tri des scores par ordre décroissant
             df_scores_sorted = df_scores.sort_values('score', ascending=False)
-            # st.write("DataFrame des scores absolus (ordre décroissant) :", df_scores_sorted)
             
             # Sélection des trois variables les plus influentes
             top_features = df_scores_sorted.head(3)
@@ -115,22 +109,13 @@ if st.sidebar.button("Lancer la simulation"):
 
             # Afficher la jauge dans la première colonne
             with col1:
-                # Affichage des variables les plus influentes
-                # st.write("### Variables les plus influentes pour la prédiction")
-                # for index, row in top_features.iterrows():
-                #     st.write(f"{index+1}. {row['feature']}: SHAP score = {row['score']:.2f}")
-                # Ajout du client sélection au données comparatives
-
                 # Titre de la partie résultat
                 st.markdown(f"<h1 class='simulation'>Résultat de la simulation pour le client:</h1>", unsafe_allow_html=True)
 
                 selected_customer = df_test.loc[df_test.index == selected_id]
                 
-                # st.write(f"Affiche les données d'entrainements: {selected_customer}")
                 if score[1] < 0.90:
-                    # st.markdown(f"<h2 class='proba'>Probabilité de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
                     target = 0
-                    # st.write(f"Target: {target}")
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
                     df_results_negatif = pd.DataFrame({
@@ -142,9 +127,7 @@ if st.sidebar.button("Lancer la simulation"):
                     # Afficher le tableau sous forme de clé-valeur
                     st.table(df_results_negatif)
                 elif score[1] >= 0.90:
-                    # st.markdown(f"<h2 class='proba'>Probabilité de remboursement:</h2> </ br>{score[1]:.3f}", unsafe_allow_html=True)
                     target = 1
-                    # st.write(f"Target: {target}")
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
                     df_results_positif = pd.DataFrame({
@@ -158,7 +141,7 @@ if st.sidebar.button("Lancer la simulation"):
             with col2:
                 st.plotly_chart(gauge)
 
-            # Creating a SHAP Explanation object
+            # Création d'une explication SHAP
             shap_exp = shap.Explanation(values=shap_values, 
                                         base_values=base_value, 
                                         data=features, 
@@ -170,14 +153,12 @@ if st.sidebar.button("Lancer la simulation"):
                 # Créer un graphique SHAP et l'enregistrer sous forme d'image
                 fig, ax = plt.subplots()
                 shap_plot = shap.force_plot(shap_exp.base_values, shap_exp.values, shap_exp.data, feature_names=shap_exp.feature_names, text_rotation=25, matplotlib=True)
-                plt.savefig("/dashboard/images/shap_force_plot.png", bbox_inches='tight')  # Enregistre l'image en tant que fichier
+                plt.savefig("/dashboard/images/shap_force_plot.png", bbox_inches='tight')
 
                 # Afficher le graphique en utilisant Streamlit
-                st.image("/dashboard/images/shap_force_plot.png")
+                st.image("/dashboard_images/shap_force_plot.png")
             with tab2:
                 df_best_features = df_train[top_features_list+['TARGET']]
-                # st.write(f"Affiche les données d'entrainements: {df_best_features}")
-                
                 # Création d'une grille de sous-graphiques
                 fig = make_subplots(rows=1, cols=len(top_features_list), subplot_titles=top_features_list)
 
@@ -198,8 +179,6 @@ if st.sidebar.button("Lancer la simulation"):
                 st.plotly_chart(fig, use_container_width=True)
                 with tab3:
                     st.table(selected_customer)
-
-            # st.write(f"Target: {selected_customer[top_features_list+['TARGET']]}")
 
         else:
             st.error("Les valeurs SHAP ne sont pas présentes dans la réponse.")

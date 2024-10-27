@@ -20,3 +20,7 @@ Le projet Prêt à dépenser vise à développer un outil de scoring de crédit 
 * :file_folder: **test**
   * :memo: **test_data.csv** - Contient les données nécessaires pour tester l'application.
   * :memo: **unite_test.py** - Regroupe les fonctions de tests unitaires appliquées lors du déploiement.
+* :memo: **modelling.ipynb** - Notebook de modélisation.
+* :memo: **rapport_data_drift.html** - Rapport d'analyse du drift sur les données app_train et app test.
+* :memo: **requirements.txt** - Liste des dépendances nécessaires pour exécuter le projet.
+* :memo: **run_API.sh** - Fichier permettant le lancement de l'API.

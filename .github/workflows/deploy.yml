@@ -1,64 +1,84 @@
-# Workflow to access AWS resources when the workflow is linked to a branch
+# Workflow pour accéder aux ressources AWS lorsque le workflow est lié à une branche
 name: Déploiement sur EC2 AWS
+
+# Déclencheur : le workflow s'exécute lors d'un push sur la branche master
 on:
   push:
     branches:
       - master
+
+# Variables d'environnement
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-54-229-88-7.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-54-171-37-232.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
-# permission can be added at job level or workflow level
+
+# Permissions pour l'action
 permissions:
-  id-token: write   # This is required for requesting the JWT
-  contents: read    # This is required for actions/checkout
+  id-token: write
+  contents: read
+
 jobs:
   MajPullOnEC2:
+    # Environnement d'exécution : dernière version d'Ubuntu
     runs-on: ubuntu-latest
+    
     steps:
+      # Étape 1 : Cloner le référentiel
       - name: Git clone the repository
         uses: actions/checkout@v4
         with:
           path: P7_Implement_a_scoring_model
+      
+      # Étape 2 : Configurer les credentials AWS
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::010526279977:role/GitHubAction-AssumeRoleWithAction
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
-      # Hello from AWS: WhoAmI
+      
+      # Étape 3 : Vérifier l'identité de l'appelant AWS
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+        # Cette commande vérifie que nous avons bien les droits d'accès à AWS 
+        # et renvoie les informations sur l'utilisateur ou le rôle utilisé par l'action
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ env.AWS_EC2 }} >> ~/.ssh/known_hosts
+        # Création du répertoire .ssh si nécessaire
+        # Écriture de la clé privée dans le fichier id_rsa
+        # Chmod pour sécuriser les permissions de la clé
+        # Ajout de l'hôte EC2 aux hôtes connus
+      
       - name: Connect & Execute commands on EC2
-        run: | 
+        run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           cd ~/P7_Implement_a_scoring_model &&  git pull ${{ env.GITHUB_REPO }}
           EOF
+        # Pull des dernières modifications depuis GitHub
+
       - name: Run unit tests
         run: |
-          echo "Run unit tests"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
           cd ~/P7_Implement_a_scoring_model && python tests/unite_test.py
           EOF
+        # Exécution des tests unitaires
 
       - name: Deploy API
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.AWS_EC2 }} << EOF
-
           pkill gunicorn || true
           echo "gunicorn killed"
-
           cd ~/P7_Implement_a_scoring_model/API/ || exit 1
           nohup gunicorn --bind 0.0.0.0:5000 app:app
           echo "nohup it's okay !"
-
-          # nohup bash ~/P7_Implement_a_scoring_model/run_API.sh &
-          # echo "nohup it's okay !"
           EOF
+        # Arrêt éventuel du processus Gunicorn existant, 
+        # puis lancement de Gunicorn en tâche de fond (nohup) pour servir l'application Flask 
+        # sur toutes les interfaces réseau (0.0.0.0) et le port 5000.
