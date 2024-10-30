@@ -1,9 +1,9 @@
+import os
 import sys
 import dill
 import pandas as pd
 import numpy as np
 import unittest
-
 # Ajout du chemin du projet à la liste des chemins Python
 sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model')
 
