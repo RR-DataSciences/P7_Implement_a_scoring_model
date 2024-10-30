@@ -8,6 +8,7 @@ import unittest
 sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model')
 
 # Importation des fonctions nécessaires
+import my_functions as MF
 from my_functions import train_models, missing_values_table, replace_special_chars, custom_score
 
 # Importation des bibliothèques nécessaires
