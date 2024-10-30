@@ -1,7 +1,5 @@
 import sys
 import dill
-import shap
-import requests
 import unittest
 
 # Ajout du chemin du projet à la liste des chemins Python
