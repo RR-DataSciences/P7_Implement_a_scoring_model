@@ -10,7 +10,7 @@ on:
 # Variables d'environnement
 env:
   AWS_REGION : eu-west-1
-  AWS_EC2 : ec2-52-48-188-70.eu-west-1.compute.amazonaws.com
+  AWS_EC2 : ec2-3-255-129-23.eu-west-1.compute.amazonaws.com
   GITHUB_REPO : https://github.com/RR-DataSciences/P7_Implement_a_scoring_model
 
 # Permissions pour l'action

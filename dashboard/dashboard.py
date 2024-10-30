@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
 #################### URL de l'API ####################
-url = "http://52.48.188.70:5000/predict"
+url = "http://3.255.129.23:5000/predict"
 
 # URL du projet
 projet_7 = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring'
