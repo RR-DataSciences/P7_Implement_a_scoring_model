@@ -1,5 +1,7 @@
 import sys
 import dill
+import pandas as pd
+import numpy as np
 import unittest
 
 # Ajout du chemin du projet à la liste des chemins Python
@@ -9,9 +11,8 @@ sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model')
 import my_functions as MF
 from my_functions import train_models, missing_values_table, replace_special_chars, custom_score
 
-# Importation des bibliothèques nécessaires
-import pandas as pd
-import numpy as np
+
+
 
 class TestScoringModel(unittest.TestCase):
     """

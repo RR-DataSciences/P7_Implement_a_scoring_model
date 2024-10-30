@@ -4,12 +4,10 @@ import logging
 import pandas as pd
 import numpy as np
 import dill
-import shap
+import os
 import sys
-print(sys.path)
+sys.path.append(os.path.abspath('/home/ec2-user/P7_Implement_a_scoring_model'))
 import my_functions as MF
-from my_functions import custom_score
-from lightgbm import LGBMClassifier
 
 app = Flask(__name__)
 

@@ -9,14 +9,13 @@ import pandas as pd
 import seaborn as sns
 from datetime import datetime
 import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
 from sklearn.metrics import make_scorer
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold, TunedThresholdClassifierCV
 from lightgbm import LGBMClassifier
 from sklearn.feature_selection import RFE
 from evidently import ColumnMapping
 from evidently.report import Report
-from evidently.metric_preset import DataDriftPreset, DataQualityPreset
+from evidently.metric_preset import DataDriftPreset
 # from mlflow.models import infer_signature
 
 
