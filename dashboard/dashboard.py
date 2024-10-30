@@ -68,7 +68,7 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 data_json = selected_data.to_dict(orient='records')
 
 # URL de l'API
-url = "http://54.78.115.31:5000/predict"
+url = "http://3.253.253.144:5000/predict"
 
 if st.sidebar.button("Lancer la simulation", key="simulation_button"):
     response = requests.post(url, json=data_json)
