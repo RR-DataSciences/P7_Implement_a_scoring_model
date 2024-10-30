@@ -28,22 +28,22 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Chargement du scaler
-scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_rawdata.dill'
+scaler_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/scaler_LGBM_rawdata_rfe.dill'
 with open(scaler_path, 'rb') as file:
     scaler = dill.load(file)
 
 # Chargement de la sélection de caractéristiques (RFE)
-rfe_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/rfe_307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+rfe_path = '/home/ec2-user/P7_Implement_a_scoring_model/models/rfe_LGBM_rawdata_rfe.dill'
 with open(rfe_path, 'rb') as file:
     rfe = dill.load(file)
 
 # Chargement du modèle LightGBM
-model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill"
+model_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/model_LGBM_rawdata_rfe.dill"
 with open(model_path, 'rb') as file:
     model = dill.load(file)
 
 # Chargement de l'expliqueur SHAP
-explainer_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/explainer.dill"
+explainer_path = "/home/ec2-user/P7_Implement_a_scoring_model/models/explainer_LGBM_rawdata_rfe.dill"
 with open(explainer_path, 'rb') as file:
     explainer = dill.load(file)
 

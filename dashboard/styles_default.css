@@ -1,0 +1,116 @@
+/* custom_styles.css */
+body {
+    font-size: 16px;
+}
+[data-testid="stSidebar"] {
+    background-color: #7360F0;
+}
+.css-w770g5, .e1ewe7hr10 {
+    background-color: #F0EE60;
+    color: #000;
+}
+h1.naming {
+    text-transform: uppercase;
+    text-align: center !important;
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #000;
+}
+.simulation {
+    color: #7360F0;
+    font-size: 1.2em !important;
+    text-align: left !important;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: #F0EE60 solid 2px;
+}
+.stAlert {
+    background-color: #7360F0 !important;
+    border: 1px solid #F0EE60 !important;
+    color: #000;
+    text-align: center !important;
+    width: 60%;
+    margin: 30px auto;
+}
+[data-testid="stHeadingWithActionElements"] h1 {
+    color: #fff;
+    font-size: 2.2em !important;
+    margin-bottom: 20px;
+    border-bottom: #F0EE60 solid 2px;
+}
+.st-emotion-cache-13ln4jf {
+    max-width: 90% !important;
+}
+.st-ae:focus {
+    border-color: #F0EE60 !important;
+}
+/* .e1f1d6gn1 {
+    font-size: 20px;
+    font-weight: bold;
+} */
+.stHorizontalBlock .e1q9reml2{
+    color: #F0EE60;
+    font-size: 20px;
+}
+.svg-container {
+    margin: auto !important;
+}
+.stTabs {
+    margin-top: -50px;
+}
+.stTable tbody {
+    color: #FFF !important;
+    font-size: 14px !important;
+}
+.st-emotion-cache-uef7qa p {
+    font-size: 1.2em;
+}
+.st-ey {
+    background-color: #F0EE60;
+}
+.st-el {
+    color: #7360F0;
+}
+.st-el:hover, .st-es:hover {
+    color: #F0EE60;
+}
+.st-el:focus {
+    color: #F0EE60;
+}
+.st-key-contrast_button {
+    display: flex;
+    justify-content: center;
+}
+.st-key-contrast_button [data-testid="stBaseButton-secondary"] {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(14, 17, 23);
+}
+.st-key-contrast_button [data-testid="stBaseButton-secondary"]:hover {
+    border-color: #FFF !important;
+    color: #FFF;
+}
+.st-key-contrast_button [data-testid="stBaseButton-secondary"]:focus {
+    border-color: #FFF !important;
+    color: #000;
+    background-color: #FFF;
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"] {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(14, 17, 23);
+    color: #FFF;
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"]:hover {
+    border-color: #F0EE60 !important;
+    color: #F0EE60;
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"]:focus {
+    border-color: #F0EE60 !important;
+    color: rgb(14, 17, 23);
+    background-color: #F0EE60;
+}

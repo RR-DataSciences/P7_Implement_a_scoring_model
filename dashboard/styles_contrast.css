@@ -1,0 +1,139 @@
+/* CSS adapté pour les daltoniens */
+body {
+    font-size: 16px;
+}
+[data-testid="stMain"] {
+    background-color: #FFF;
+    color: #808080;
+}
+
+[data-testid="stSidebar"] {
+    background-color: #808080;
+}
+
+.css-w770g5, .e1ewe7hr10 {
+    background-color: #c0c0c0;
+    color: #000;
+}
+h1.naming {
+    color: #000;
+    text-transform: uppercase;
+    text-align: center !important;
+    font-weight: bold;
+    font-size: 2.2em;
+}
+.simulation {
+    color: #000;
+    font-size: 1.2em !important;
+    text-align: left !important;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: #c0c0c0 solid 2px;
+}
+.stAlert {
+    /* border: 1px solid #c0c0c0 !important; */
+    text-align: center !important;
+    width: 60%;
+    margin: 30px auto;
+}
+.stAlert [data-testid="stAlertContainer"] {
+    color: #000 !important;
+    background-color: #c0c0c0 !important;
+    border: 1px solid #808080 !important;
+}
+[data-testid="stHeadingWithActionElements"] h1 {
+    color: #000;
+    font-size: 2.2em !important;
+    margin-bottom: 20px;
+    border-bottom: #c0c0c0 solid 2px;
+}
+.st-emotion-cache-13ln4jf {
+    max-width: 90% !important;
+}
+.st-ae:focus {
+    border-color: #c0c0c0 !important;
+}
+.st-emotion-cache-zuelfj thead, .st-emotion-cache-zuelfj tbody, .st-emotion-cache-zuelfj tfoot, .st-emotion-cache-zuelfj tr, .st-emotion-cache-zuelfj td, .st-emotion-cache-zuelfj th {
+    color:#808080 !important;
+    border: #c0c0c0 solid 1px !important;
+}
+.stHorizontalBlock .e1q9reml2 {
+    color: #000 !important;
+    font-size: 20px;
+    font-weight: bold;
+}
+.svg-container {
+    margin: auto !important;
+}
+.stTabs {
+    margin-top: -50px;
+}
+.stTabs button p {
+    color: #808080;
+    font-size: 1.2em !important;
+    font-weight: bold;
+}
+.stTabs button:focus p {
+    color: #000 !important;
+}
+.stTabs [data-testid="stTableStyledTable"] {
+    font-size: 1em;
+}
+/* .st-emotion-cache-uef7qa p {
+    font-size: 1.2em;
+} */
+/* .e1f1d6gn1 {
+    font-size: 20px;
+    font-weight: bold;
+} */
+.st-key-contrast_button [data-testid="stBaseButton-secondary"] {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(14, 17, 23);
+}
+.st-key-contrast_button [data-testid="stBaseButton-secondary"]:hover {
+    border-color: #FFF !important;
+    color: #FFF;
+}
+.st-key-contrast_button [data-testid="stBaseButton-secondary"]:focus {
+    border-color: #FFF !important;
+    color: #000;
+    background-color: #FFF;
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"] {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(14, 17, 23);
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"]:hover {
+    border-color: #FFF !important;
+    color: #FFF;
+}
+.st-key-simulation_button [data-testid="stBaseButton-secondary"]:focus {
+    border-color: #FFF !important;
+    color: rgb(14, 17, 23);
+    background-color: #FFF;
+}
+/* Barre de défilement personnalisée */
+.stTabs ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.stTabs ::-webkit-scrollbar-track {
+    background-color: #F0F0F0; /* Couleur du fond de la barre de défilement */
+}
+
+.stTabs ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Couleur de la barre de défilement */
+}
+
+.stTabs ::-webkit-scrollbar-thumb:hover {
+    background-color: #000 !important; /* Couleur de la barre de défilement lorsqu'elle est survolée */
+}
+.stTabs ::-webkit-scrollbar-thumb:focus {
+    background-color: #000 !important; /* Couleur de la barre de défilement lorsqu'elle est survolée */
+}

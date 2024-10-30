@@ -63,22 +63,22 @@ class TestScoringModel(unittest.TestCase):
 
         ###################### Import des modèles ######################
         # Chargement du scaler
-        scaler_path = f'{projet_7}/models/scaler_rawdata.dill'
+        scaler_path = f'{projet_7}/models/scaler_LGBM_rawdata_rfe.dill'
         with open(scaler_path, 'rb') as file:
             scaler = dill.load(file)
         
         # Chargement de RFE
-        rfe_path = f'{projet_7}/models/rfe_307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+        rfe_path = f'{projet_7}/models/rfe_LGBM_rawdata_rfe.dill'
         with open(rfe_path, 'rb') as file:
             rfe = dill.load(file)
         
         # Chargement du modèle LightGBM
-        model_path = f'{projet_7}/models/307511_rawdata_rfe_dill_v4_LGBM-[24-08-23 at 11_42].dill'
+        model_path = f'{projet_7}/models/model_LGBM_rawdata_rfe.dill'
         with open(model_path, 'rb') as file:
             model = dill.load(file)
         
         # Chargement de l'expliqueur SHAP
-        explainer_path = f'{projet_7}/models/explainer.dill'
+        explainer_path = f'{projet_7}/models/explainer_LGBM_rawdata_rfe.dill'
         with open(explainer_path, 'rb') as file:
             explainer = dill.load(file)
 
