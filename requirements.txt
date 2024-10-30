@@ -21,3 +21,4 @@ shap==0.46.0
 statsmodels==0.14.2
 yellowbrick==1.5
 streamlit==1.39.0
+neptune
