@@ -10,6 +10,10 @@ import warnings
 import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
+#################### URL de l'API ####################
+url = "http://52.48.188.70:5000/predict"
+
+# URL du projet
 projet_7 = 'C:/Users/remid/Documents/_OC_ParcoursDataScientist/P7_Implémentez_un_modèle_de_scoring'
 
 # Lecture des fichiers CSV - train et test
@@ -21,15 +25,18 @@ df_test = pd.read_csv(f'{path_test}/test_imputed_df_api_20.csv', sep=';', index_
 
 # df_test = df_train.drop(columns='TARGET')
 
+# Vérifie si le mode contraste est déjà défini dans l'état de la session Streamlit.
+# Si ce n'est pas le cas, initialise le mode contraste à False (désactivé).
 if 'contrast_mode' not in st.session_state:
     st.session_state.contrast_mode = False
 
-def toggle_daltonian_mode():
+# Définit une fonction pour basculer au mode contraste en inversant l'état actuel.
+def toggle_contrast_mode():
     st.session_state.contrast_mode = not st.session_state.contrast_mode
 
 button_label = "Interface contrasté" if not st.session_state.contrast_mode else "Interface par défaut"
 
-if st.sidebar.button(button_label, on_click=toggle_daltonian_mode, key="contrast_button"):
+if st.sidebar.button(button_label, on_click=toggle_contrast_mode, key="contrast_button"):
     st.experimental_rerun()
 
 # Fonction pour charger le fichier CSS local
@@ -45,10 +52,8 @@ else:
 
 
 # Utilisez une classe CSS pour appliquer le style au reste de votre app
-st.markdown(f"<div class='{'daltonian-mode' if st.session_state.contrast_mode else 'default-mode'}'>", unsafe_allow_html=True)
+st.markdown(f"<div class='{'contrast-mode' if st.session_state.contrast_mode else 'default-mode'}'>", unsafe_allow_html=True)
    
-
-
 st.sidebar.markdown("<h1 class='naming'>Prêt à dépenser</h1>", unsafe_allow_html=True)
 
 # Ajouter un logo dans la barre latérale
@@ -67,9 +72,6 @@ selected_data = df_test.loc[[selected_id]]  # On conserve le format DataFrame
 # Convertir en JSON
 data_json = selected_data.to_dict(orient='records')
 
-# URL de l'API
-url = "http://3.253.253.144:5000/predict"
-
 if st.sidebar.button("Lancer la simulation", key="simulation_button"):
     response = requests.post(url, json=data_json)
     
@@ -79,6 +81,8 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
         if 'shap_details' in prediction:
             shap_details = prediction['shap_details']
             score = prediction['score'][0]
+
+            threshold = 0.2
             
             if st.session_state.contrast_mode:
                 # Configuration de la jauge avec Plotly (mode contraste)
@@ -89,12 +93,12 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
                         'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "#000"},
                         'bar': {'color': "#FFD700"},  # Jaune doré
                     'steps': [
-                            {'range': [0, 0.9], 'color': "#00BFFF"},  # Rouge foncé
-                            {'range': [0.9, 1], 'color': "#DC143C"}],  # Bleu ciel
+                            {'range': [0, threshold], 'color': "#00BFFF"},  # Rouge foncé
+                            {'range': [threshold, 1], 'color': "#DC143C"}],  # Bleu ciel
                         'threshold': {
                             'line': {'color': "#000", 'width': 5},  # Blanc
-                            'thickness': 0.9,
-                            'value': 0.9}}  
+                            'thickness': 0.8,
+                            'value': threshold}}  
                     )
                 )
 
@@ -124,12 +128,12 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
                         'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "white"},
                         'bar': {'color': "#F0EE60"},  # Jaune clair
                     'steps': [
-                            {'range': [0, 0.9], 'color': "lightgreen"},  # Rouge clair
-                            {'range': [0.9, 1], 'color': "indianred"}],  # Vert clair
+                            {'range': [0, threshold], 'color': "#00BFFF"},  # Rouge clair
+                            {'range': [threshold, 1], 'color': "#DC143C"}],  # Vert clair
                         'threshold': {
-                            'line': {'color': "black", 'width': 5},  # Noir
-                            'thickness': 0.9,
-                            'value': 0.9}}  
+                            'line': {'color': "black", 'width': 4},  # Noir
+                            'thickness': 0.8,
+                            'value': threshold}}  
                     )
                 )
 
@@ -183,7 +187,7 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
 
                 selected_customer = df_test.loc[df_test.index == selected_id]
                 
-                if score[1] < 0.90:
+                if score[1] < 0.20:
                     target = 0
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
@@ -195,13 +199,13 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
                     df_results_negatif.set_index("Description", inplace=True)
                     # Afficher le tableau sous forme de clé-valeur
                     st.table(df_results_negatif)
-                elif score[1] >= 0.90:
+                elif score[1] >= 0.20:
                     target = 0
                     selected_customer['TARGET'] = target
                     # Créer un DataFrame de type "clé-valeur"
                     df_results_positif = pd.DataFrame({
-                        "Description": ["Probabilité de défaut remboursement", "Status de la demande"],
-                        "Valeur": [f"{score[1]:.3f}", "Prêt Refusé"]
+                        "Description": ["N° Client", "Probabilité de défaut remboursement", "Status de la demande"],
+                        "Valeur": [selected_id, f"{score[1]:.3f}", "Prêt Refusé"]
                     })
                     # Définir "Description" comme index
                     df_results_positif.set_index("Description", inplace=True)
@@ -210,13 +214,17 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
             with col2:
                 st.plotly_chart(gauge)
 
-            # Création d'une explication SHAP
+            # Optiens les valeurs de shapley
             shap_exp = shap.Explanation(values=shap_values, 
                                         base_values=base_value, 
                                         data=features, 
                                         feature_names=feature_names)
 
-            tab1, tab2, tab3 = st.tabs(["Influence des variables dans la prédiction", "Distribution des variables les plus influentes (TOP 3)", "Données client"])
+            tab1, tab2, tab3 = st.tabs([
+                "Influence des variables dans la prédiction", 
+                "Distribution des variables les plus influentes (TOP 3)", 
+                "Données client"
+                ])
 
             with tab1:
                 # Créer un graphique SHAP et l'enregistrer sous forme d'image
@@ -230,7 +238,9 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
                 # Afficher le graphique en utilisant Streamlit
                 st.image(output_path, caption="Graphique SHAP montrant l'influence des variables sur le score")
             with tab2:
-                df_best_features = df_train[top_features_list+['TARGET']]
+                # Sélectionner 50% des individus au hasard
+                sample_size = int(len(df_train) * 0.5)
+                df_best_features = df_train[top_features_list+['TARGET']].sample(n=sample_size, random_state=42)
                 # Création d'une grille de sous-graphiques
                 fig = make_subplots(rows=1, cols=len(top_features_list), subplot_titles=top_features_list)
 
@@ -275,9 +285,9 @@ if st.sidebar.button("Lancer la simulation", key="simulation_button"):
                 fig.update_traces(opacity=0.75)
 
                 st.plotly_chart(fig, use_container_width=True)
-                with tab3:
-                    st.markdown('<style>.custom-scrollbar { scrollbar-color: #888; scrollbar-width: thin; }</style>', unsafe_allow_html=True)
-                    st.table(selected_customer)
+            with tab3:
+                st.markdown('<style>.custom-scrollbar { scrollbar-color: #888; scrollbar-width: thin; }</style>', unsafe_allow_html=True)
+                st.table(selected_customer)
 
         else:
             st.error("Les valeurs SHAP ne sont pas présentes dans la réponse.")

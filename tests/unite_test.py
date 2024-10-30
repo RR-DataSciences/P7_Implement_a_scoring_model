@@ -5,11 +5,10 @@ import requests
 import unittest
 
 # Ajout du chemin du projet à la liste des chemins Python
-sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model/API')
+sys.path.append('/home/ec2-user/P7_Implement_a_scoring_model')
 
 # Importation des fonctions nécessaires
-import Copie_my_functions as MF
-from Copie_my_functions import train_models, missing_values_table, replace_special_chars, custom_score
+from my_functions import train_models, missing_values_table, replace_special_chars, custom_score
 
 # Importation des bibliothèques nécessaires
 import pandas as pd

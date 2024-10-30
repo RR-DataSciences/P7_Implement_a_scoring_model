@@ -8,7 +8,6 @@ import shap
 import sys
 print(sys.path)
 import my_functions as MF
-import Copie_my_functions as cMF
 from my_functions import custom_score
 from lightgbm import LGBMClassifier
 
@@ -123,7 +122,7 @@ def predict():
         app.logger.debug(f"Données après scaling (DataFrame) : {data_scaled}")
 
         # Suppression des caractères spéciaux dans les noms de colonnes
-        data_scaled.columns = data_scaled.columns.map(cMF.replace_special_chars)
+        data_scaled.columns = data_scaled.columns.map(MF.replace_special_chars)
         app.logger.debug(f"Noms de colonnes après suppression des caractères spéciaux : {data_scaled.columns}")
 
         # Réduction de dimension avec RFE
