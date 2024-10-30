@@ -6,7 +6,6 @@ import shap
 import neptune
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.metrics import make_scorer

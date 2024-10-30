@@ -12,8 +12,6 @@ import my_functions as MF
 from my_functions import train_models, missing_values_table, replace_special_chars, custom_score
 
 
-
-
 class TestScoringModel(unittest.TestCase):
     """
     Classe contenant les tests unitaires pour le modèle de scoring.

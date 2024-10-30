@@ -6,7 +6,6 @@ import plotly.graph_objs as go
 import plotly.express as px
 import plotly.figure_factory as ff
 import shap
-import warnings
 import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
